@@ -1,0 +1,5 @@
+{
+  "fs": {
+    "files": ["auction-hackathon.py", "entrypoint.sh"]
+  }
+}
