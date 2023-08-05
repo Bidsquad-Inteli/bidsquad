@@ -122,26 +122,21 @@ class Auction:
 
     _id = itertools.count()
 
-    def __init__(self, creator: str, item: Item, erc20: str, title: str, description: str,
-                 start_date: datetime, end_date: datetime,
-                 min_bid_amount: int = MIN_BID_AMOUNT):
+    def __init__(self, creator: str, carbonCredit: int, satteliteImageUrl: str, title: str, description: str,
+                 start_date: datetime, end_date: datetime):
         if end_date <= start_date:
             raise ValueError(
                 f"End date ({end_date}) must be after start date ({start_date})")
-        if min_bid_amount <= 0:
-            raise ValueError(
-                f"Minimum bid amount ({min_bid_amount}) must be greater than zero")
 
         self._id = next(self._id)
-        self._state = core.CREATED
+        self._state = Auction.CREATED
         self._creator = creator
-        self._item = item
-        self._erc20 = erc20
+        self._carbonCredit = carbonCredit
+        self._satteliteImageUrl = satteliteImageUrl
         self._title = title
         self._description = description
         self._start_date = start_date
         self._end_date = end_date
-        self._min_bid_amount = min_bid_amount
         self._bids: list[Bid] = []
 
     @property
@@ -155,14 +150,6 @@ class Auction:
     @property
     def creator(self):
         return self._creator
-
-    @property
-    def item(self):
-        return self._item
-
-    @property
-    def erc20(self):
-        return self._erc20
 
     @property
     def title(self):
@@ -181,10 +168,6 @@ class Auction:
         return self._end_date
 
     @property
-    def min_bid_amount(self):
-        return self._min_bid_amount
-
-    @property
     def winning_bid(self):
         if len(self._bids) == 0:
             return None
@@ -199,25 +182,25 @@ class Auction:
         return (self.id < other.id)
 
     def bid(self, bid: Bid):
-        if self.state == core.FINISHED:
+        if self.state == Auction.FINISHED:
             raise ValueError("The auction has already been finished")
 
         if bid.auction_id != self.id:
             raise ValueError(f"Auction id ({bid.auction_id}) does not match")
 
-        if bid.amount < self.min_bid_amount:
-            raise ValueError(
-                f"Bid amount ({bid.amount}) did not meet minimum bid amount " +
-                f"({self.min_bid_amount})")
-        if self.winning_bid is None or bid > self.winning_bid:
+        # if bid.amount < self.min_bid_amount:
+        #     raise ValueError(
+        #         f"Bid amount ({bid.amount}) did not meet minimum bid amount " +
+        #         f"({self.min_bid_amount})")
+        if self.winning_bid is None or bid < self.winning_bid:
             self._bids.append(bid)
         else:
             raise ValueError(
                 f"Bid amount ({bid.amount}) is not greater than the current " +
                 f"winning bid amount ({self.winning_bid.amount})")
 
-        if self.state == core.CREATED:
-            self._state = core.STARTED
+        if self.state == Auction.CREATED:
+            self._state = Auction.STARTED
 
     def finish(self):
-        self._state = core.FINISHED
+        self._state = Auction.FINISHED

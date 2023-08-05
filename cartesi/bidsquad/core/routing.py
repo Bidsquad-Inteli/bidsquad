@@ -22,7 +22,7 @@ from core.model import Item
 from core.outputs import Error, Log
 from core.util import hex_to_str
 from routes import Mapper
-
+from core.outputs import Error, Notice, Voucher
 
 class DefaultRoute():
 
@@ -126,6 +126,7 @@ class TransferErc721Route(WalletRoute):
                                             self._request_args.get(
                                                 "erc721").lower(),
                                             self._request_args.get("token_id"))
+    
 
 
 class AuctioneerRoute(AdvanceRoute):
@@ -137,25 +138,22 @@ class CreateAuctionRoute(AuctioneerRoute):
 
     def _parse_request(self, request):
         super()._parse_request(request)
-        self._request_args["erc20"] = self._request_args["erc20"].lower()
-        erc721 = self._request_args["item"]["erc721"].lower()
-        self._request_args["item"] = Item(
-            erc721, self._request_args["item"]["token_id"])
+        self._request_args["carbonCredit"] = self._request_args["carbonCredit"]
+        self._request_args["satteliteImageUrl"] = self._request_args["satteliteImageUrl"]
         self._request_args["start_date"] = datetime.fromtimestamp(
             self._request_args["start_date"])
         self._request_args["end_date"] = datetime.fromtimestamp(
             self._request_args["end_date"])
+        
 
     def execute(self, match_result, request=None):
         super().execute(match_result, request)
         return self._auctioneer.auction_create(self._msg_sender,
-                                               self._request_args.get("item"),
-                                               self._request_args.get("erc20"),
+                                               self._request_args.get("carbonCredit"),
+                                               self._request_args.get("satteliteImageUrl"),
                                                self._request_args.get("title"),
                                                self._request_args.get(
                                                    "description"),
-                                               self._request_args.get(
-                                                   "min_bid_amount"),
                                                self._request_args.get(
                                                    "start_date"),
                                                self._request_args.get(
@@ -228,7 +226,7 @@ class ListBidsRoute(InspectRoute):
     def execute(self, match_result, request=None):
         return self._auctioneer.auction_list_bids(
             int(match_result["auction_id"]))
-
+    
 
 class Router():
 
@@ -301,7 +299,8 @@ class Router():
         self._route_map.connect(None,
                                 "erc20transfer",
                                 controller="erc20_transfer",
-                                action="execute")
+                                action="execute"),
+        
 
     def set_rollup_address(self,rollup_address):
         self._controllers['erc721_withdraw'].rollup_address = rollup_address
@@ -310,6 +309,7 @@ class Router():
     def process(self, route, request=None):
         route = route.lower()
         match_result = self._route_map.match(route)
+
         if match_result is None:
             return Error(f"Operation '{route}' is not supported")
         else:

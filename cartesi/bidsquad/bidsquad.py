@@ -33,6 +33,9 @@ logger.info(f"Network is {network}")
 erc20_portal_file = open(f'./deployments/{network}/ERC20Portal.json')
 erc20_portal = json.load(erc20_portal_file)
 
+input_box_file = open(f'./deployments/{network}/ERC20Portal.json')
+input_box_contract = json.load(input_box_file)
+
 erc721_portal_file = open(f'./deployments/{network}/ERC721Portal.json')
 erc721_portal = json.load(erc721_portal_file)
 
@@ -88,6 +91,11 @@ def handle_advance(data):
                 error_msg = f"Failed to process ERC721 deposit '{payload}'. {error}"
                 logger.debug(error_msg, exc_info=True)
                 return Error(error_msg)
+        if msg_sender.lower() == input_box_contract['address'].lower():
+            notice = {"payload": data["payload"]}
+            response = requests.post(rollup_server + "/notice", json=notice)
+            logger.info(f"Received notice status {response.status_code} body {response.content}")
+            return "accept"
         else:
             try:
                 str_payload = hex_to_str(payload)

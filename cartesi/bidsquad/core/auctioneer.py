@@ -21,42 +21,47 @@ from core.model import Auction, Bid, Item
 from core.outputs import Error, Log, Notice, Output
 
 
-class Auctioneer():
-
+class Auctioneer:
     def __init__(self, wallet: Wallet):
         self._auctions: dict[int, Auction] = {}
         self._wallet = wallet
 
     def auction_create(
-            self, seller: str, item: Item, erc20: str,
-            title: str, description: str, min_bid_amount: int,
-            start_date: datetime, end_date: datetime, current_date: datetime):
-
+        self,
+        seller: str,
+        carbonCredit: int,
+        satteliteImageUrl: str,
+        title: str,
+        description: str,
+        start_date: datetime,
+        end_date: datetime,
+        current_date: datetime,
+    ):
         try:
-            if start_date < current_date:
-                raise ValueError(f"Start date '{start_date.isoformat()}' "
-                                 "must be in the future")
-            if not self._seller_owns_item(seller, item):
-                raise ValueError(f"Seller '{seller}' must own item "
-                                 f"'ERC-721: {item.erc721}, "
-                                 f"id: {item.token_id}' to auction it")
+            # if start_date < current_date:
+            #     raise ValueError(
+            #         f"Start date '{start_date.isoformat()}' " "must be in the future"
+            #     )
 
-            if not self._is_item_auctionable(item):
-                raise ValueError(f"Item 'ERC-721: {item.erc721}, "
-                                 f"id: {item.token_id}' "
-                                 "is already being auctioned")
-
-            auction = Auction(seller, item, erc20, title, description,
-                              start_date, end_date, min_bid_amount)
-            self._auctions[core._id] = auction
+            auction = Auction(
+                seller,
+                carbonCredit,
+                satteliteImageUrl,
+                title,
+                description,
+                start_date,
+                end_date,
+            )
+            self._auctions[auction._id] = auction
 
             auction_json = json.dumps(auction, cls=AuctionEncoder)
             notice_payload = f'{{"type": "auction_create", "content": {auction_json}}}'
-            logger.info(f"Auction {core._id} created for item "
-                        f"'ERC-721: {item.erc721}, id: {item.token_id}'")
+            logger.info(
+                f"Auction {auction._id} created for {carbonCredit} carbon credits"
+            )
             return Notice(notice_payload)
         except Exception as error:
-            error_msg = f"Failed to create core. {error}"
+            error_msg = f"Failed to create auction. {error}"
             logger.debug(error_msg, exc_info=True)
             return Error(error_msg)
 
@@ -65,7 +70,7 @@ class Auctioneer():
             auction = self._auctions.get(auction_id)
             if auction == None:
                 raise ValueError(f"Auction id {auction_id} not found")
-            return Log(json.dumps(core.bids, cls=BidEncoder))
+            return Log(json.dumps(auction.bids, cls=BidEncoder))
         except Exception as error:
             error_msg = f"Failed to list bids for auction id {auction_id}. {error}"
             logger.debug(error_msg, exc_info=True)
@@ -75,28 +80,26 @@ class Auctioneer():
         try:
             auction = self._auctions.get(auction_id)
             if not auction:
-                raise ValueError(
-                    f"There's no auction with id {auction_id}")
-            if bidder == core.creator:
-                raise ValueError(
-                    f"{bidder} cannot bid on their own auction")
-            if timestamp < core.start_date:
+                raise ValueError(f"There's no auction with id {auction_id}")
+            if bidder == auction.creator:
+                raise ValueError(f"{bidder} cannot bid on their own auction")
+            if timestamp < auction.start_date:
                 raise ValueError(
                     "Bid arrived before auction start date"
-                    f"'{core.start_date.isoformat()}'")
-            if timestamp > core.end_date:
+                    f"'{auction.start_date.isoformat()}'"
+                )
+            if timestamp > auction.end_date:
                 raise ValueError(
                     "Bid arrived after auction end date "
-                    f"'{core.end_date.isoformat()}'")
-            if not self._has_enough_funds(core.erc20, bidder, amount):
-                raise ValueError(
-                    f"Account {bidder} doesn't have enough funds")
+                    f"'{auction.end_date.isoformat()}'"
+                )
+            # if not self._has_enough_funds(auction.erc20, bidder, amount):
+            #     raise ValueError(f"Account {bidder} doesn't have enough funds")
 
             new_bid = Bid(auction_id, bidder, amount, timestamp)
-            core.bid(new_bid)
+            auction.bid(new_bid)
             bid_json = json.dumps(new_bid, cls=BidEncoder)
-            logger.info(f"Bid of '{amount} {core.erc20}' placed for "
-                        f"{auction_id}")
+            logger.info(f"Bid of '{amount}' placed for " f"{auction_id}")
             return Notice(f'{{"type": "auction_bid", "content": {bid_json}}}')
         except Exception as error:
             error_msg = f"Failed to bid. {error}"
@@ -104,53 +107,53 @@ class Auctioneer():
             return Error(error_msg)
 
     def auction_end(
-            self, auction_id, rollup_address,
-            msg_date, msg_sender, withdraw=False):
-
+        self, auction_id, rollup_address, msg_date, msg_sender, withdraw=False
+    ):
         try:
             auction = self._auctions.get(auction_id)
 
             if not auction:
                 raise ValueError(f"There's no auction with id {auction_id}")
-            if msg_date < core.end_date:
-                raise ValueError(
-                    f"It can only end after {core.end_date.isoformat()}")
+            if msg_date < auction.end_date:
+                raise ValueError(f"It can only end after {auction.end_date.isoformat()}")
             notice_template = '{{"type": "auction_end", "content": {}}}'
-            winning_bid = core.winning_bid
+            winning_bid = auction.winning_bid
             outputs: list[Output] = []
 
             if not winning_bid:
-                notice_payload = notice_template.format(
-                    f'{{"auction_id": {core.id}}}')
+                notice_payload = notice_template.format(f'{{"auction_id": {auction.id}}}')
                 notice = Notice(notice_payload)
                 outputs.append(notice)
             else:
                 output = self._wallet.erc20_transfer(
                     account=winning_bid.author,
-                    to=core.creator,
-                    erc20=core.erc20,
-                    amount=winning_bid.amount)
+                    to=auction.creator,
+                    erc20=auction.erc20,
+                    amount=winning_bid.amount,
+                )
 
                 if type(output) is Error:
                     return output
 
                 outputs.append(output)
                 output = self._wallet.erc721_transfer(
-                    account=core.creator,
+                    account=auction.creator,
                     to=winning_bid.author,
-                    erc721=core.item.erc721,
-                    token_id=core.item.token_id)
+                    erc721=auction.item.erc721,
+                    token_id=auction.item.token_id,
+                )
 
                 if type(output) is Error:
                     return output
 
                 outputs.append(output)
-                if withdraw and msg_sender == core.winning_bid.author:
+                if withdraw and msg_sender == auction.winning_bid.author:
                     output = self._wallet.erc721_withdraw(
                         rollup_address=rollup_address,
                         sender=msg_sender,
-                        erc721=core.item.erc721,
-                        token_id=core.item.token_id)
+                        erc721=auction.item.erc721,
+                        token_id=auction.item.token_id,
+                    )
 
                     if type(output) is Error:
                         return output
@@ -162,18 +165,17 @@ class Auctioneer():
                 notice = Notice(notice_payload)
                 outputs.append(notice)
 
-            core.finish()
-            logger.info(f"Auction {core.id} finished")
+            auction.finish()
+            logger.info(f"Auction {auction.id} finished")
             return outputs
         except Exception as error:
-            error_msg = f"Failed to end core. {error}"
+            error_msg = f"Failed to end auction. {error}"
             logger.debug(error_msg, exc_info=True)
             return Error(error_msg)
 
     def auction_get(self, auction_id):
         try:
-            auction_json = json.dumps(
-                self._auctions[auction_id], cls=AuctionEncoder)
+            auction_json = json.dumps(self._auctions[auction_id], cls=AuctionEncoder)
             return Log(auction_json)
         except Exception as error:
             return Error(f"Auction id {auction_id} not found")
@@ -197,7 +199,8 @@ class Auctioneer():
                 if limit:
                     limit = int(limit[0])
                     auctions = auctions[:limit]
-
+            logger.info(f"Listing auctions")
+            logger.debug(f"Auctions: {auctions}")
             return Log(json.dumps(auctions, cls=AuctionEncoder))
         except Exception as error:
             error_msg = f"Failed to list auctions. {error}"
@@ -216,7 +219,7 @@ class Auctioneer():
 
     def _is_item_auctionable(self, item):
         for auction in self._auctions.values():
-            if core.state != core.FINISHED and core.item == item:
+            if auction.state != auction.FINISHED and auction.item == item:
                 return False
         return True
 
