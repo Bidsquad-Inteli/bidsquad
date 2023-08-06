@@ -118,7 +118,6 @@ class Auction:
     CREATED = 0
     STARTED = 1
     FINISHED = 2
-    MIN_BID_AMOUNT = 1
 
     _id = itertools.count()
 
