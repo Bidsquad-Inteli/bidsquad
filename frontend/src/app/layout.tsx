@@ -1,5 +1,9 @@
 import '../styles/globals.css'
 
+export const metadata = {
+  title: 'Bidsquad',
+}
+
 export default function RootLayout({
   children,
 }: {
