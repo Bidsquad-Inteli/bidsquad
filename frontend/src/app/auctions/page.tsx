@@ -14,7 +14,9 @@ const getAuctions = async () => {
   const DEFAULT_PAYLOAD = "auctions";
 
   try {
-    const response = await fetch(path.join(DEFAULT_URL, DEFAULT_PAYLOAD));
+    const response = await fetch(path.join(DEFAULT_URL, DEFAULT_PAYLOAD), {
+      cache: "no-cache",
+    });
 
     if (response.status != 200) {
       return {
@@ -75,6 +77,8 @@ interface Auction {
 
 const Auctions: React.FC = async () => {
   const auctions: Auction[] = await getAuctions();
+
+  console.log("AUCC!!!!!!!!", auctions);
 
   return (
     <Layout title={"Auctions"}>
