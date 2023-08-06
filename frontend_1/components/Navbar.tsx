@@ -49,7 +49,7 @@ export const Navbar = () => {
     }
 
     return (
-        <header className="header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02">
+        <header className="z-[2] header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02">
 
             <Link href={"/"} className="text-xl font-semibold hover:text-blue-600">BidSquad</Link>
 

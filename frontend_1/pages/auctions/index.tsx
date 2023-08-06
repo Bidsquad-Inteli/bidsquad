@@ -79,7 +79,7 @@ const Auctions = () => {
             ))}
         </div>
         
-        <Link href={'/new'}>
+        <Link href={'/auctions/new'}>
             <div className='fixed flex justify-center items-center bg-blue-500 bottom-[50px] right-[50px] w-[50px] h-[50px] rounded-[50%]'>
                 {/* <label className='text-white font-bold text-3xl flex justify-center items-center translate-y-[-3px]'>+</label> */}
                 <AiOutlinePlus size={30} color='white'/>

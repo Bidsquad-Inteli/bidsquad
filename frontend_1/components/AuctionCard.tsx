@@ -33,7 +33,7 @@ export const AuctionCard = ({ id, name, description, startPrice, price, startDat
         <Link href={`/auction/${id}`} className="flex flex-col w-[400px] border-[0.25px] border-grey-100 p-4 rounded-xl overflow-hidden hover:scale-105 transition duration-150 bg-white ease-in-out hover:cursor-grabbing	">
             <div className="flex flex-col w-full">
                 <div className="w-full flex items-center justify-center relative h-40%">
-                    <img className="rounded-xl h-[300px]" src="https://imgur.com/Bkvv5qE.png"></img>
+                    <img className="z-[1] rounded-xl h-[300px]" src="https://imgur.com/Bkvv5qE.png"></img>
                     <div className="absolute bg-white rounded-xl flex items-center justify-center bottom-[10px] left-[10px] w-auto px-4 h-[40px]">
                         <label>🔥 Ends in: {timeToFinnish} days</label>
                     </div>
