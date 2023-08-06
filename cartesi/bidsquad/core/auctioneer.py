@@ -19,7 +19,26 @@ from core.encoders import AuctionEncoder, BidEncoder
 from core.log import logger
 from core.model import Auction, Bid, Item
 from core.outputs import Error, Log, Notice, Output
+import numpy as np
+from tensorflow.keras.models import load_model
+import  cv2
+import base64
 
+def decode_image_from_base64(base64_string):
+    image_bytes = base64.b64decode(base64_string)
+    image_array = np.frombuffer(image_bytes, dtype=np.uint8)
+    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+    return image
+
+def get_carbon_credits_for_sattelite_image(base64Image: str):
+    model = load_model('./model/model.h5')
+    img = decode_image_from_base64(base64Image)
+  
+    img = cv2.resize(img, (256, 256)) 
+    img = np.array(img) / 255
+    img = np.expand_dims(img, axis=0)
+    results = round(float(model.predict(img)[0][0]), 1)
+    return results
 
 class Auctioneer:
     def __init__(self, wallet: Wallet):
@@ -29,7 +48,7 @@ class Auctioneer:
     def auction_create(
         self,
         seller: str,
-        carbonCredit: int,
+        base64Image: int,
         satteliteImageUrl: str,
         title: str,
         description: str,
@@ -42,10 +61,13 @@ class Auctioneer:
             #     raise ValueError(
             #         f"Start date '{start_date.isoformat()}' " "must be in the future"
             #     )
+            logger.info(f"Model run for {satteliteImageUrl}")
+            carbonCredits = get_carbon_credits_for_sattelite_image(base64Image)
+            logger.info(f"Carbon Credits: {carbonCredits}")
 
             auction = Auction(
                 seller,
-                carbonCredit,
+                carbonCredits,
                 satteliteImageUrl,
                 title,
                 description,
@@ -57,7 +79,7 @@ class Auctioneer:
             auction_json = json.dumps(auction, cls=AuctionEncoder)
             notice_payload = f'{{"type": "auction_create", "content": {auction_json}}}'
             logger.info(
-                f"Auction {auction._id} created for {carbonCredit} carbon credits"
+                f"Auction {auction._id} created for {carbonCredits} carbon credits"
             )
             return Notice(notice_payload)
         except Exception as error:

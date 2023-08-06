@@ -4,6 +4,10 @@ FROM --platform=linux/riscv64 cartesi/python:3.10-slim-jammy
 WORKDIR /opt/cartesi/dapp
 
 RUN apt-get update && apt-get install -y gcc
+RUN apt-get update && apt-get install -y g++
+
+RUN pip install --upgrade pip
+RUN apt-get update && apt-get install -y cmake
 
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt --no-cache \

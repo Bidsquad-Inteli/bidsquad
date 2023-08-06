@@ -138,7 +138,7 @@ class CreateAuctionRoute(AuctioneerRoute):
 
     def _parse_request(self, request):
         super()._parse_request(request)
-        self._request_args["carbonCredit"] = self._request_args["carbonCredit"]
+        self._request_args["base64Image"] = self._request_args["base64Image"]
         self._request_args["satteliteImageUrl"] = self._request_args["satteliteImageUrl"]
         self._request_args["start_date"] = datetime.fromtimestamp(
             self._request_args["start_date"])
@@ -149,7 +149,7 @@ class CreateAuctionRoute(AuctioneerRoute):
     def execute(self, match_result, request=None):
         super().execute(match_result, request)
         return self._auctioneer.auction_create(self._msg_sender,
-                                               self._request_args.get("carbonCredit"),
+                                               self._request_args.get("base64Image"),
                                                self._request_args.get("satteliteImageUrl"),
                                                self._request_args.get("title"),
                                                self._request_args.get(

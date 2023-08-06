@@ -7,7 +7,7 @@ ls *.py ./core/*.py | ROLLUP_HTTP_SERVER_URL="http://127.0.0.1:5004" NETWORK='lo
 yarn start input send --payload '{
     "method": "create",
     "args": {
-        "carbonCredit": 90, 
+        "base64Image": "base64Image", 
         "satteliteImageUrl": "ips.placeholder",
         "title": "Default title for testing",
         "description": "Default description for testing",
