@@ -13,50 +13,52 @@ const getAuctions = async () => {
 
   const DEFAULT_PAYLOAD = "auctions";
 
-    try {
-        const response = await fetch(path.join(DEFAULT_URL, DEFAULT_PAYLOAD));
+  try {
+    const response = await fetch(path.join(DEFAULT_URL, DEFAULT_PAYLOAD));
 
-        if (response.status != 200) {
-            return {
-                redirect: {
-                    destination: "/",
-                    permanent: false,
-                },
-            };
-        }
-    
-        const res = await response.json();
-    
-        console.log(`Inspect status: ${JSON.stringify(res.status)}`);
-        console.log(`Input count: ${JSON.stringify(res.processed_input_count)}`);
-        console.log(`Reports:`);
-    
-        let auctions;
-        console.log(res.reports);
-        for (let i in res.reports) {
-            let payload = res.reports[i].payload;
-            auctions = JSON.parse(`${hex2str(payload)}`);
-        }
-        if (res.exception_payload) {
-            let payload = res.exception_payload;
-            console.log(`Exception payload: ${hex2str(payload)}`);
-        }
-    
-        return auctions;
-    } catch (err) {
-        return [{
-            id: "1",
-            state: 1,
-            creator: "0x000000",
-            carbonCredit: 100,
-            satteliteImageUrl: "https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=color:0xff0000ff|weight:5|40.737102,-73.990318|40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397|40.747922,-73.975556|40.737102,-73.990318&key=AIzaSyAj33Dfa7ZT-9hrs5lgFMIRSsBGfRmNZxo",
-            title: "Auction 1",
-            description: "Auction 1",
-            startDate: "2021-10-10",
-            endDate: "2021-10-10"
-        }]
+    if (response.status != 200) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
     }
-    
+
+    const res = await response.json();
+
+    console.log(`Inspect status: ${JSON.stringify(res.status)}`);
+    console.log(`Input count: ${JSON.stringify(res.processed_input_count)}`);
+    console.log(`Reports:`);
+
+    let auctions;
+    console.log(res.reports);
+    for (let i in res.reports) {
+      let payload = res.reports[i].payload;
+      auctions = JSON.parse(`${hex2str(payload)}`);
+    }
+    if (res.exception_payload) {
+      let payload = res.exception_payload;
+      console.log(`Exception payload: ${hex2str(payload)}`);
+    }
+
+    return auctions;
+  } catch (err) {
+    return [
+      {
+        id: "1",
+        state: 1,
+        creator: "0x000000",
+        carbonCredit: 100,
+        satteliteImageUrl:
+          "https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=color:0xff0000ff|weight:5|40.737102,-73.990318|40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397|40.747922,-73.975556|40.737102,-73.990318&key=AIzaSyAj33Dfa7ZT-9hrs5lgFMIRSsBGfRmNZxo",
+        title: "Auction 1",
+        description: "Auction 1",
+        startDate: "2021-10-10",
+        endDate: "2021-10-10",
+      },
+    ];
+  }
 };
 
 interface Auction {
