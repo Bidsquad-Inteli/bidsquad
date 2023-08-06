@@ -42,20 +42,16 @@ export const Navbar = () => {
 
 
     const onSubmitSearch: SubmitHandler<Inputs> = ({ search }: { search: string; }): void => {
-        console.log(search);
-
-        router.push({
+        search ? router.push({
             pathname: "/search",
             query: { search },
-        });
+        }) : console.error('Nothing to search for');
     }
 
     return (
         <header className="header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02">
 
-            <h1 className="w-3/12">
-                <Link href={"/"} className="text-xl font-semibold">BidSquad</Link>
-            </h1>
+            <Link href={"/"} className="text-xl font-semibold hover:text-blue-600">BidSquad</Link>
 
             <nav className="nav font-semibold text-lg">
                 <ul className="flex items-center">
@@ -68,8 +64,8 @@ export const Navbar = () => {
                 </ul>
             </nav>
 
-            <div className="w-3/12 flex justify-end">
-                {showSearchBar && <form className="relative mr-2" onSubmit={handleSubmit(onSubmitSearch)}>
+            <div className="flex justify-end">
+                {showSearchBar && <form className="relative mr-2 absolute" onSubmit={handleSubmit(onSubmitSearch)}>
                     <input type="text" className="bg-gray-100 border-2 border-gray-300 rounded-md w-64 px-4 py-1 text-sm focus:outline-none focus:border-blue-500" placeholder="Search" {...register("search", { required: true })} />
                     <button type="submit" className="absolute right-0 top-0 mt-1 mr-2">
                         Search
