@@ -5,60 +5,74 @@ import { AiOutlinePlus } from 'react-icons/ai'
 
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import path from 'path'
 
-const Auctions = () => {
-  const auctions = [
-    { 
-      id: "1", 
-      name: "Default title for testing", 
-      description: "Default description for testing", 
-      startDate: "08/15/2023", 
-      endDate: "08/15/2023", 
-      address: "0x1234567890123456789012345678901234567890", 
-      startPrice: 100.0, 
-      price: 100.0 
-    },
-    { 
-      id: "2", 
-      name: "Default title for testing", 
-      description: "Default description for testing", 
-      startDate: "08/15/2023", 
-      endDate: "08/15/2023", 
-      address: "0x1234567890123456789012345678901234567890", 
-      startPrice: 100.0, 
-      price: 100.0 
-    },
-    { 
-      id: "3", 
-      name: "Default title for testing", 
-      description: "Default description for testing", 
-      startDate: "08/15/2023", 
-      endDate: "08/15/2023", 
-      address: "0x1234567890123456789012345678901234567890", 
-      startPrice: 100.0, 
-      price: 100.0 
-    },
-    { 
-      id: "4", 
-      name: "Default title for testing", 
-      description: "Default description for testing", 
-      startDate: "08/15/2023", 
-      endDate: "08/15/2023", 
-      address: "0x1234567890123456789012345678901234567890", 
-      startPrice: 100.0, 
-      price: 100.0 
-    },
-    { 
-      id: "5", 
-      name: "Default title for testing", 
-      description: "Default description for testing", 
-      startDate: "08/15/2023", 
-      endDate: "08/15/2023", 
-      address: "0x1234567890123456789012345678901234567890", 
-      startPrice: 100.0, 
-      price: 100.0 
-    },
-  ]
+interface Props {
+  auctions: {
+      id: string;
+      name: string;
+      description: string;
+      startDate: string;
+      endDate: string;
+      address: string;
+      startPrice: number;
+      price: number;
+  }[];
+}
+
+const Auctions: React.FC<Props> = ({auctions}) => {
+  // const auctions = [
+  //   { 
+  //     id: "1", 
+  //     name: "Default title for testing", 
+  //     description: "Default description for testing", 
+  //     startDate: "08/15/2023", 
+  //     endDate: "08/15/2023", 
+  //     address: "0x1234567890123456789012345678901234567890", 
+  //     startPrice: 100.0, 
+  //     price: 100.0 
+  //   },
+  //   { 
+  //     id: "2", 
+  //     name: "Default title for testing", 
+  //     description: "Default description for testing", 
+  //     startDate: "08/15/2023", 
+  //     endDate: "08/15/2023", 
+  //     address: "0x1234567890123456789012345678901234567890", 
+  //     startPrice: 100.0, 
+  //     price: 100.0 
+  //   },
+  //   { 
+  //     id: "3", 
+  //     name: "Default title for testing", 
+  //     description: "Default description for testing", 
+  //     startDate: "08/15/2023", 
+  //     endDate: "08/15/2023", 
+  //     address: "0x1234567890123456789012345678901234567890", 
+  //     startPrice: 100.0, 
+  //     price: 100.0 
+  //   },
+  //   { 
+  //     id: "4", 
+  //     name: "Default title for testing", 
+  //     description: "Default description for testing", 
+  //     startDate: "08/15/2023", 
+  //     endDate: "08/15/2023", 
+  //     address: "0x1234567890123456789012345678901234567890", 
+  //     startPrice: 100.0, 
+  //     price: 100.0 
+  //   },
+  //   { 
+  //     id: "5", 
+  //     name: "Default title for testing", 
+  //     description: "Default description for testing", 
+  //     startDate: "08/15/2023", 
+  //     endDate: "08/15/2023", 
+  //     address: "0x1234567890123456789012345678901234567890", 
+  //     startPrice: 100.0, 
+  //     price: 100.0 
+  //   },
+  // ]
 
   const router = useRouter()
 
@@ -89,5 +103,35 @@ const Auctions = () => {
   )
 
 }
+
+export const getServerSideProps = async (ctx: any) => {
+  const getAuctions = async () => {
+      const DEFAULT_URL =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:5005/inspect";
+
+      const DEFAULT_PAYLOAD = "auctions";
+
+      const response = await fetch(path.join(DEFAULT_URL, DEFAULT_PAYLOAD));
+
+      if (response.status != 200) {
+          return {
+              redirect: {
+                  destination: "/",
+                  permanent: false,
+              },
+          };
+      }
+
+      const res = await response.json();
+
+      return {
+          props: {
+              auctions: res,
+          },
+      };
+  };
+
+  return await getAuctions();
+};
 
 export default Auctions
