@@ -3,10 +3,9 @@ import { Layout } from "../../components/Layout";
 
 import { AiOutlinePlus } from "react-icons/ai";
 
-import { useRouter } from "next/navigation";
+import { hex2str } from "@/utils/utils";
 import Link from "next/link";
 import path from "path";
-import { hex2str } from "@/utils/utils";
 
 const getAuctions = async () => {
     const DEFAULT_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5005/inspect";
@@ -57,61 +56,7 @@ interface Auction {
 }
 
 const Auctions: React.FC = async () => {
-    // const auctions = [
-    // 	{
-    // 		id: "1",
-    // 		name: "Default title for testing",
-    // 		description: "Default description for testing",
-    // 		startDate: "08/15/2023",
-    // 		endDate: "08/15/2023",
-    // 		address: "0x1234567890123456789012345678901234567890",
-    // 		startPrice: 100.0,
-    // 		price: 100.0,
-    // 	},
-    // 	{
-    // 		id: "2",
-    // 		name: "Default title for testing",
-    // 		description: "Default description for testing",
-    // 		startDate: "08/15/2023",
-    // 		endDate: "08/15/2023",
-    // 		address: "0x1234567890123456789012345678901234567890",
-    // 		startPrice: 100.0,
-    // 		price: 100.0,
-    // 	},
-    // 	{
-    // 		id: "3",
-    // 		name: "Default title for testing",
-    // 		description: "Default description for testing",
-    // 		startDate: "08/15/2023",
-    // 		endDate: "08/15/2023",
-    // 		address: "0x1234567890123456789012345678901234567890",
-    // 		startPrice: 100.0,
-    // 		price: 100.0,
-    // 	},
-    // 	{
-    // 		id: "4",
-    // 		name: "Default title for testing",
-    // 		description: "Default description for testing",
-    // 		startDate: "08/15/2023",
-    // 		endDate: "08/15/2023",
-    // 		address: "0x1234567890123456789012345678901234567890",
-    // 		startPrice: 100.0,
-    // 		price: 100.0,
-    // 	},
-    // 	{
-    // 		id: "5",
-    // 		name: "Default title for testing",
-    // 		description: "Default description for testing",
-    // 		startDate: "08/15/2023",
-    // 		endDate: "08/15/2023",
-    // 		address: "0x1234567890123456789012345678901234567890",
-    // 		startPrice: 100.0,
-    // 		price: 100.0,
-    // 	},
-    // ];
-
-    const auctions = await getAuctions();
-    console.log(auctions);
+    const auctions: Auction[] = await getAuctions();
 
     return (
         <Layout title={"Auctions"}>
@@ -130,7 +75,7 @@ const Auctions: React.FC = async () => {
 
             <Link
                 href={"/auctions/new"}
-                className="fixed flex justify-center items-center bg-blue-500 bottom-[50px] right-[50px] w-[50px] h-[50px] rounded-[50%]"
+                className="fixed flex justify-center items-center bg-primary bottom-[50px] right-[50px] w-[50px] h-[50px] rounded-[50%]"
             >
                 <AiOutlinePlus size={30} color="white" />
             </Link>
