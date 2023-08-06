@@ -91,11 +91,6 @@ def handle_advance(data):
                 error_msg = f"Failed to process ERC721 deposit '{payload}'. {error}"
                 logger.debug(error_msg, exc_info=True)
                 return Error(error_msg)
-        if msg_sender.lower() == input_box_contract['address'].lower():
-            notice = {"payload": data["payload"]}
-            response = requests.post(rollup_server + "/notice", json=notice)
-            logger.info(f"Received notice status {response.status_code} body {response.content}")
-            return "accept"
         else:
             try:
                 str_payload = hex_to_str(payload)
