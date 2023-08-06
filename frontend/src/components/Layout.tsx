@@ -3,7 +3,7 @@ import Head from "next/head"
 import { Navbar } from "./Navbar"
 import { Footer } from "./Footer"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 export const Layout = ({
     title,

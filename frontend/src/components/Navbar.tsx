@@ -1,7 +1,9 @@
+'use client'
 import Link from "next/link"
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { usePathname } from 'next/navigation';
 
 type Inputs = {
     search: string;
@@ -9,11 +11,12 @@ type Inputs = {
 
 export const Navbar = () => {
     const router = useRouter();
+    const pathname = usePathname();
 
     const [active, setActive] = useState<string>("");
 
     useEffect(() => {
-        switch (router.pathname) {
+        switch (pathname) {
             case "/":
                 setActive("Menu");
                 break;
@@ -41,12 +44,12 @@ export const Navbar = () => {
 
 
 
-    const onSubmitSearch: SubmitHandler<Inputs> = ({ search }: { search: string; }): void => {
-        search ? router.push({
-            pathname: "/search",
-            query: { search },
-        }) : console.error('Nothing to search for');
-    }
+    // const onSubmitSearch: SubmitHandler<Inputs> = ({ search }: { search: string; }): void => {
+    //     search ? router.push("/search" {
+    //         pathname: "/search",
+    //         query: { search },
+    //     }) : console.error('Nothing to search for');
+    // }
 
     return (
         <header className="z-[2] header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02">
@@ -65,12 +68,12 @@ export const Navbar = () => {
             </nav>
 
             <div className="flex justify-end">
-                {showSearchBar && <form className="relative mr-2 absolute" onSubmit={handleSubmit(onSubmitSearch)}>
+                {/* {showSearchBar && <form className="relative mr-2 absolute" onSubmit={handleSubmit(onSubmitSearch)}>
                     <input type="text" className="bg-gray-100 border-2 border-gray-300 rounded-md w-64 px-4 py-1 text-sm focus:outline-none focus:border-blue-500" placeholder="Search" {...register("search", { required: true })} />
                     <button type="submit" className="absolute right-0 top-0 mt-1 mr-2">
                         Search
                     </button>
-                </form>}
+                </form>} */}
 
 
                 <button onClick={searchBar}>
