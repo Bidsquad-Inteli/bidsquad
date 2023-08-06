@@ -18,8 +18,8 @@ const NewAuction = () => {
   const [loaded, setLoaded] = useState(false);
   const [coordinates, setCoordinates] = useState([]);
   const [map, setMap] = useState("");
-  const [isFirstPage, setIsFirstPage] = useState(false);
-  const [isSecondPage, setIsSecondPage] = useState(true);
+  const [isFirstPage, setIsFirstPage] = useState(true);
+  const [isSecondPage, setIsSecondPage] = useState(false);
 
   function changeQnt(e: any, type: number) {
     e.preventDefault();
