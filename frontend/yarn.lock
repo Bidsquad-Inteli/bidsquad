@@ -147,6 +147,21 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
+"@cartesi/rollups@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@cartesi/rollups/-/rollups-0.9.1.tgz#f6cd6294553b799016b721463160c65dadc6ff44"
+  integrity sha512-KTkvmRvWGKfecv2Vlnr6PmyNrVAtQBwzoAoqATWnZafOO06Pl/jSqVjyewLHsz+44tEst6lRsV8WDos4FeGlUA==
+  dependencies:
+    "@cartesi/util" "^5.0.2"
+    "@openzeppelin/contracts" "4.8.0"
+
+"@cartesi/util@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@cartesi/util/-/util-5.0.2.tgz#dfe0ff88b1998b88eafc4089949c3df71e3246e1"
+  integrity sha512-mIaOplU+RKkiW10JRpDBG8IG7lGKyXrkF6w4WHVZ2YKWze5I+mzJBaPALZLtJSuwb6GCqLZbB7NZx3A7iZyWkA==
+  dependencies:
+    "@openzeppelin/contracts" "3.2.1-solc-0.7"
+
 "@emotion/is-prop-valid@^0.8.1":
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"
@@ -387,7 +402,7 @@
   dependencies:
     "@ethersproject/logger" "^5.7.0"
 
-"@ethersproject/providers@5.7.2":
+"@ethersproject/providers@5.7.2", "@ethersproject/providers@^5.7.2":
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.7.2.tgz#f8b1a4f275d7ce58cf0a2eec222269a08beb18cb"
   integrity sha512-g34EWZ1WWAVgr4aptGlVBF8mhl3VWjv+8hoAnzStu8Ah22VHBsuGzP17eb6xDVRzw895G4W7vvx60lFFur/1Rg==
@@ -686,6 +701,16 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@openzeppelin/contracts@3.2.1-solc-0.7":
+  version "3.2.1-solc-0.7"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.2.1-solc-0.7.tgz#067a60918b935d4733208edb3d7e35cd1d51026b"
+  integrity sha512-VfKZE9L2HNaZVBR7l5yHbRmap3EiVw9F5iVXRRDdgfnA9vQ1yFanrs0VYmdo2VIXC+EsI9wPPYZY9Ic7/qDBdw==
+
+"@openzeppelin/contracts@4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.8.0.tgz#6854c37df205dd2c056bdfa1b853f5d732109109"
+  integrity sha512-AGuwhRRL+NaKx73WKRNzeCxOCOCxpaqF+kp8TJ89QzAipSwZy/NoflkWaL9bywXFRhIzXt8j38sfF7KBKCPWLw==
 
 "@pkgr/utils@^2.3.1":
   version "2.4.2"
