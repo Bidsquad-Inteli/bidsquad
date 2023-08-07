@@ -11,12 +11,14 @@ export const NavbarItem: React.FC<NavbarItemProps> = ({ href, label }) => {
     const isActive = pathname === href;
 
     const className = `p-4 border-b-2 border-primary border-opacity-0 duration-200 cursor-pointer ${
-        isActive ? "border-opacity-100 text-black" : "hover:border-opacity-100 hover:text-black "
+        isActive
+            ? "border-opacity-100 text-black"
+            : "hover:border-opacity-100 hover:text-black "
     }`;
 
     return (
-        <li className={className}>
-            <Link href={href}>{label}</Link>
-        </li>
+        <Link href={href} className={className}>
+            {label}
+        </Link>
     );
 };
