@@ -9,31 +9,34 @@ const Home = () => {
     const { account, setAccount } = useMetamask();
     const router = useRouter();
 
-    const connectToMetamask = async () => {
-        const ethereum = (window as any).ethereum;
+  const connectToMetamask = async () => {
+    const ethereum = (window as any).ethereum;
 
-        if (!ethereum) {
-            alert("Install MetaMask");
-            return;
-        }
+    if (!ethereum) {
+      alert("Install MetaMask");
+      return;
+    }
 
-        try {
-            const [account] = await ethereum.request({ method: "eth_requestAccounts" });
-            setAccount(account);
+    try {
+      const [account] = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(account);
 
-            const desiredChainId = "0x539";
-            if (ethereum.chainId !== desiredChainId) {
-                await ethereum.request({
-                    method: "wallet_switchEthereumChain",
-                    params: [{ chainId: desiredChainId }],
-                });
-            }
+      const desiredChainId = "0x7a69";
+      console.log("REDE!!!!!!", ethereum.chainId);
+      if (ethereum.chainId !== desiredChainId) {
+        await ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: desiredChainId }],
+        });
+      }
 
-            router.replace("/auctions");
-        } catch (err) {
-            console.error(err);
-        }
-    };
+      router.replace("/auctions");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
     return (
         <Layout title="Home">
