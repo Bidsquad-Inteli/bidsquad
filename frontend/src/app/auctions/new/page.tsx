@@ -10,6 +10,14 @@ import axios from "axios";
 import { useState } from "react";
 
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { handleSubmit } from "@/utils/send_data";
+
+interface AuctionData {
+  title?: string;
+  description?: string;
+  startDate?: number;
+  endDate?: number;
+}
 
 const NewAuction = () => {
   const [qntInputs, setQntInputs] = useState([true]);
@@ -20,7 +28,8 @@ const NewAuction = () => {
   const [isSecondPage, setIsSecondPage] = useState(false);
   const [file, setFile] = useState(null);
   const [base64, setBase64] = useState("");
-  const [ changingPage, setChangingPage ] = useState(false)
+  const [changingPage, setChangingPage] = useState(false);
+  const [autionData, setAuctionData] = useState<AuctionData>();
 
   function changeQnt(e: any, type: number) {
     e.preventDefault();
@@ -84,13 +93,15 @@ const NewAuction = () => {
     };
 
     // Convert blob to Base64
-    const base64Data = await blobToBase64(blob);
+    let base64Data = await blobToBase64(blob);
+
+    base64Data = (base64Data as any).slice(22)
 
     setBase64(base64Data as any);
-    setFile(file as any)
+    setFile(file as any);
 
-    console.log("BASE 64", base64)
-    console.log("FILE", file)
+    console.log("BASE 64", base64);
+    console.log("FILE", file);
 
     return base64Data;
   }
@@ -114,49 +125,74 @@ const NewAuction = () => {
 
   async function changePage(e: any, type: string) {
     e.preventDefault();
-    setChangingPage(true)
+    setChangingPage(true);
     if (type == "next") {
-      if(!file) {
-        toast.error("You need to upload an image")
-        return
+      if (!file) {
+        toast.error("You need to upload an image");
+        return;
       }
 
-      if(!base64) {
-        toast.error("You need to upload an image")
-        return
+      if (!base64) {
+        toast.error("You need to upload an image");
+        return;
       }
 
-      await sendToIPFS(file).then((res) => {
-        console.log(res)
-        const object = {
-          satelliteImage: res,
-          base64: base64,
-        }
-        
-        window.localStorage.setItem("auction", JSON.stringify(object))
-      }).catch((err) => {
-        console.log(err)
-        toast.error("Error while uploading image")
-      })
+      await sendToIPFS(file)
+        .then((res) => {
+          console.log(res);
+          const object = {
+            satelliteImage: res,
+            base64: base64,
+          };
+
+          window.localStorage.setItem("auction", JSON.stringify(object));
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Error while uploading image");
+        });
 
       setIsFirstPage(false);
       setIsSecondPage(true);
 
-      setChangingPage(false)
+      setChangingPage(false);
     } else {
       setIsFirstPage(true);
       setIsSecondPage(false);
 
-      setChangingPage(false)
+      setChangingPage(false);
     }
   }
 
+  const createAuction = async (e: any) => {
+    e.preventDefault();
+    const localStorageData = JSON.parse(
+      (window as any).localStorage.getItem("auction")
+    );
+    if (autionData) {
+      const auction = {
+        base64Image: localStorageData.base64,
+        satteliteImageUrl: localStorageData.satelliteImage,
+        title: autionData.title,
+        description: autionData.description,
+        start_date: autionData.startDate,
+        end_date: autionData.endDate,
+      };
+      console.log("AUCTION DIGITADA!!", auction);
+      await handleSubmit(auction);
+      toast.success("Auction created successfully!");
+    } else {
+      toast.error(
+        "You need to fill all the fields before sending the transaction!"
+      );
+    }
+  };
+
   return (
     <Layout title={"Auctions"}>
-      {
-        changingPage ? (
-          <WaveTopBottomLoading color="#3B82F6" size="large"/>
-        ) : (
+      {changingPage ? (
+        <WaveTopBottomLoading color="#3B82F6" size="large" />
+      ) : (
         <>
           <Toaster position="top-center" reverseOrder={false} />
           <div className="w-auto flex flex-col content-start items-center mt-6 ml-6">
@@ -230,7 +266,11 @@ const NewAuction = () => {
                   <div className="flex flex-col items-center justify-center gap-6">
                     <label>Aguardando Coordenadas</label>
                     <div className="relative mr-8">
-                      <SemipolarLoading color="#3B82F6" size="small" speed={8} />
+                      <SemipolarLoading
+                        color="#3B82F6"
+                        size="small"
+                        speed={8}
+                      />
                     </div>
                   </div>
                 )}
@@ -246,9 +286,11 @@ const NewAuction = () => {
                   className="w-[90%] md:w-[500px] h-[45px] border-2 border-blue-500 px-4 py-4 rounded-xl outline-0 mt-2"
                   type="text"
                   placeholder={`Título`}
-                  // onChange={(e) => {
-                  //     setTitle(e.target.value);
-                  // }}
+                  onChange={(e) => {
+                    setAuctionData((prevState) => {
+                      return { ...prevState, title: e.target.value };
+                    });
+                  }}
                 />
               </div>
 
@@ -258,9 +300,11 @@ const NewAuction = () => {
                   className="w-[90%] md:w-[500px] h-[45px] border-2 border-blue-500 px-4 py-4 rounded-xl outline-0 mt-2"
                   type="text"
                   placeholder={`Description`}
-                  // onChange={(e) => {
-                  //     setTitle(e.target.value);
-                  // }}
+                  onChange={(e) => {
+                    setAuctionData((prevState) => {
+                      return { ...prevState, description: e.target.value };
+                    });
+                  }}
                 />
               </div>
 
@@ -282,9 +326,15 @@ const NewAuction = () => {
                   className="w-[90%] md:w-[500px] h-[45px] border-2 border-blue-500 px-4 py-4 rounded-xl outline-0 mt-2"
                   type="date"
                   placeholder={`State`}
-                  // onChange={(e) => {
-                  //     setTitle(e.target.value);
-                  // }}
+                  onChange={(e) => {
+                    setAuctionData((prevState) => {
+                      const selectedDate = new Date(e.target.value);
+                      return {
+                        ...prevState,
+                        startDate: selectedDate.getTime(),
+                      };
+                    });
+                  }}
                 />
               </div>
 
@@ -294,9 +344,12 @@ const NewAuction = () => {
                   className="w-[90%] md:w-[500px] h-[45px] border-2 border-blue-500 px-4 py-4 rounded-xl outline-0 mt-2"
                   type="date"
                   placeholder={`State`}
-                  // onChange={(e) => {
-                  //     setTitle(e.target.value);
-                  // }}
+                  onChange={(e) => {
+                    setAuctionData((prevState) => {
+                      const selectedDate = new Date(e.target.value);
+                      return { ...prevState, endDate: selectedDate.getTime() };
+                    });
+                  }}
                 />
               </div>
             </form>
@@ -334,6 +387,9 @@ const NewAuction = () => {
                 </button>
                 <button
                   className="w-[140px] h-[40px] text-white font-bold flex justify-center items-center rounded-xl bg-blue-500 disabled:opacity-50"
+                  onClick={async (e) => {
+                    await createAuction(e);
+                  }}
                 >
                   Concluir
                 </button>

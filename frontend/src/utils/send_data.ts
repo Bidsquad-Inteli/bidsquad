@@ -6,6 +6,8 @@ const INPUTBOX_ADDRESS = "0x5a723220579C0DCb8C9253E6b4c62e572E379945";
 const DAPP_ADDRESS = "0x142105FC8dA71191b3a13C738Ba0cF4BC33325e2";
 
 export async function handleSubmit(data) {
+  console.log("DADOS!!", data);
+
   // Start a connection
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
   const signer = provider.getSigner();
@@ -16,7 +18,9 @@ export async function handleSubmit(data) {
   // Encode the input
   const inputBytes = ethers.utils.isBytesLike(data)
     ? data
-    : ethers.utils.toUtf8Bytes(data);
+    : ethers.utils.toUtf8Bytes(JSON.stringify(data));
+
+  console.log("Bytes!!!!", inputBytes);
 
   // Send the transaction
   const tx = await inputBox.addInput(DAPP_ADDRESS, inputBytes);
