@@ -49,9 +49,9 @@ The BidSquad project utilizes the following key technologies and dependencies:
 
 4. **Carbon Credit Generation on the Blockchain:** Based on the AI assessment, the property's carbon credit potential is generated and recorded on the blockchain.
 
-5. **Bidding from Certifiers:** The property is now ready to receive bids from carbon credit certifying companies who want to validate the amount of carbon credits generated.
+5. **Bidding from Certifiers:** The property is now ready to receive bids from carbon credit certifying companies. These companies make proposals for the payment value of their certification services, indicating their interest in validating the amount of carbon credits generated.
 
-6. **Auction Closure:** At the end of the auction, the bidding process is closed, and the highest bid wins the right to certify the carbon credits for the property.
+6. **Auction Closure:** At the end of the auction, the bidding process is closed, and the lowest bid wins the right to certify the carbon credits for the property.
 
 ## Contributing
 
