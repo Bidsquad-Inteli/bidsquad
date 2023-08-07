@@ -18,11 +18,11 @@ export default function MetamaskProvider({ children }: any) {
     const pathname = usePathname()
     const router = useRouter()
 
-    useEffect(() => {
-        if (!account && pathname != "/") {
-            router.replace("/")
-        }
-    }, [pathname, account])
+    // useEffect(() => {
+    //     if (!account && pathname != "/") {
+    //         router.replace("/")
+    //     }
+    // }, [pathname, account])
 
     return (
         <MetamaskContext.Provider
