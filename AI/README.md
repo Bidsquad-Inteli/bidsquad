@@ -7,7 +7,7 @@ This part of the project utilizes a deep learning model to estimate the number o
 
 ## Dataset
 
-The dataset consists of 188 satellite images, manually collected and labeled, according to industry standarts for CC emission estimations.
+The dataset consists of 188 satellite images, manually collected and labeled, according to industry standarts [¹](https://www.researchgate.net/profile/Kjell-Klasson/publication/228518044_Estimation_of_carbon_credits_in_carbon_dioxide_sequestration_activities/links/0deec529f44c75d9dd000000/Estimation-of-carbon-credits-in-carbon-dioxide-sequestration-activities.pdf)  for CC emission estimations.
 
 ## Model Architecture
 
