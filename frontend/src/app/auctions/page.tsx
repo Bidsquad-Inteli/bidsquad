@@ -51,7 +51,7 @@ const getAuctions = async () => {
         creator: "0x000000",
         carbonCredit: 100,
         satteliteImageUrl:
-          "https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=color:0xff0000ff|weight:5|40.737102,-73.990318|40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397|40.747922,-73.975556|40.737102,-73.990318&key=AIzaSyAj33Dfa7ZT-9hrs5lgFMIRSsBGfRmNZxo",
+          "https://imgur.com/R1DlCa4.png",
         title: "Auction 1",
         description: "Auction 1",
         startDate: "2021-10-10",
