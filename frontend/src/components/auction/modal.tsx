@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import { RiCloseFill } from "react-icons/ri";
 
@@ -102,7 +103,7 @@ export const AuctionModal = ({
                     </div>
 
                     <div className="w-full md:w-1/3">
-                        <Image
+                        <img
                             src={auction.satteliteImageUrl}
                             alt="Auction item image"
                             className="rounded-xl "
