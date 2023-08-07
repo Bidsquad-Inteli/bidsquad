@@ -275,6 +275,30 @@ const NewAuction = () => {
                   // }}
                 />
               </div>
+
+              <div className="flex flex-col justify-center items-start">
+                <label className="text-md font-bold">Start Date</label>
+                <input
+                  className="w-[90%] md:w-[500px] h-[45px] border-2 border-blue-500 px-4 py-4 rounded-xl outline-0 mt-2"
+                  type="date"
+                  placeholder={`State`}
+                  // onChange={(e) => {
+                  //     setTitle(e.target.value);
+                  // }}
+                />
+              </div>
+
+              <div className="flex flex-col justify-center items-start">
+                <label className="text-md font-bold">End Date</label>
+                <input
+                  className="w-[90%] md:w-[500px] h-[45px] border-2 border-blue-500 px-4 py-4 rounded-xl outline-0 mt-2"
+                  type="date"
+                  placeholder={`State`}
+                  // onChange={(e) => {
+                  //     setTitle(e.target.value);
+                  // }}
+                />
+              </div>
             </form>
           )}
 
