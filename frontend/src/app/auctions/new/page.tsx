@@ -60,6 +60,8 @@ const NewAuction = () => {
     });
 
     const fileHash = `https://ipfs.io/ipfs/${resFile.data.IpfsHash}`;
+
+    return fileHash;
   }
 
   async function fetchImageAndConvertToBase64(url) {
@@ -124,14 +126,18 @@ const NewAuction = () => {
         return
       }
 
-      const ipfsLink = await sendToIPFS(file)
-
-      const object = {
-        satelliteImage: ipfsLink,
-        base64: base64,
-      }
-      
-      window.localStorage.setItem("auction", JSON.stringify(object))
+      await sendToIPFS(file).then((res) => {
+        console.log(res)
+        const object = {
+          satelliteImage: res,
+          base64: base64,
+        }
+        
+        window.localStorage.setItem("auction", JSON.stringify(object))
+      }).catch((err) => {
+        console.log(err)
+        toast.error("Error while uploading image")
+      })
 
       setIsFirstPage(false);
       setIsSecondPage(true);
