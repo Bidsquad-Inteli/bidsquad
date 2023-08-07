@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import React, { createContext, useState, useContext, SetStateAction } from "react";
+import { usePathname , useRouter} from "next/navigation";
+import React, { createContext, useState, useContext, SetStateAction, useEffect } from "react";
 
 interface MetamaskContextInterface {
     account: string | null;
@@ -13,6 +15,14 @@ const MetamaskContext = createContext<MetamaskContextInterface | null>(null);
 export default function MetamaskProvider({ children }: any) {
     const [account, setAccount] = useState(null);
     const [loading, setLoading] = useState(true);
+    const pathname = usePathname()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (!account && pathname != "/") {
+            router.replace("/")
+        }
+    }, [pathname, account])
 
     return (
         <MetamaskContext.Provider

@@ -6,8 +6,8 @@ import MetamaskLogo from "@/assets/metamask.png";
 import { useMetamask } from "@/contexts/metamask";
 
 const Home = () => {
-  const { setAccount } = useMetamask();
-  const router = useRouter();
+    const { account, setAccount } = useMetamask();
+    const router = useRouter();
 
   const connectToMetamask = async () => {
     const ethereum = (window as any).ethereum;
@@ -38,22 +38,29 @@ const Home = () => {
     }
   };
 
-  return (
-    <Layout title="Home">
-      <div className="flex flex-col items-center justify-center h-full py-12 px-4">
-        <h1 className="text-4xl font-bold">
-          Welcome to <span className="text-primary">BidSquad</span>
-        </h1>
-        <button
-          onClick={connectToMetamask}
-          className="mt-[35vh] flex items-center text-xl hover:scale-105 transition-all gap-4 bg-primary py-2 px-4 rounded"
-        >
-          <Image alt="Metamask logo" src={MetamaskLogo} height={40} />
-          Connect to metamask
-        </button>
-      </div>
-    </Layout>
-  );
+    return (
+        <Layout title="Home">
+            <div className="flex flex-col items-center justify-center h-full py-12 px-4">
+                <h1 className="text-4xl font-bold">
+                    Welcome to <span className="text-primary">BidSquad</span>
+                </h1>
+                {!account ? (
+                    <button
+                        onClick={connectToMetamask}
+                        className="mt-[35vh] flex items-center text-xl hover:scale-105 transition-all gap-4 bg-primary py-2 px-4 rounded"
+                    >
+                        <Image alt="Metamask logo" src={MetamaskLogo} height={40} />
+                        Connect to metamask
+                    </button>
+                ) : (
+                    <p className="mt-[35vh] text-center">
+                        Connected to address <br />
+                        {account}
+                    </p>
+                )}
+            </div>
+        </Layout>
+    );
 };
 
 export default Home;
