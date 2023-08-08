@@ -17,12 +17,14 @@ export const AuctionCard = ({
     carbonCredit,
     startDate,
     endDate,
+    state,
     creator,
+    satteliteImageUrl,
 }: {
     id: string;
-    state: number;
     creator: string;
     carbonCredit: number;
+    state: number;
     satteliteImageUrl: string;
     title: string;
     description: string;
@@ -49,15 +51,15 @@ export const AuctionCard = ({
             <AuctionModal
                 modalOpen={isModalOpen}
                 auction={{
-                    id: "1",
-                    state: 1,
-                    creator: "0x000000",
-                    carbonCredit: 100,
-                    satteliteImageUrl: "https://imgur.com/R1DlCa4.png",
-                    title: "Auction 1",
-                    description: "Auction 1",
-                    startDate: "2021-10-10",
-                    endDate: "2021-10-10",
+                    id,
+                    title,
+                    description,
+                    carbonCredit,
+                    startDate,
+                    endDate,
+                    creator,
+                    state,
+                    satteliteImageUrl,
                 }}
                 closeModal={toggleModal}
             />
@@ -72,7 +74,7 @@ export const AuctionCard = ({
                             src="https://imgur.com/Bkvv5qE.png"
                         ></img> */}
                         <Image
-                            src="https://imgur.com/Bkvv5qE.png"
+                            src={satteliteImageUrl}
                             alt="Auction item image"
                             width={400}
                             height={250}
