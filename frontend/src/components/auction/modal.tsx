@@ -16,7 +16,7 @@ export const AuctionModal = ({
         title: string;
         description: string;
         startDate: string;
-        endDate: string;
+        endDate: number;
     };
     modalOpen: boolean;
     closeModal: () => void;
