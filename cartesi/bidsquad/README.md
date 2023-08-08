@@ -32,3 +32,6 @@ yarn start input send --accountIndex 2 --payload '{    "method": "bid",
 
 ## List bids for an auction:
 yarn start inspect --payload "auctions/0/bids"
+
+
+pip install eth_abi requests numpy
