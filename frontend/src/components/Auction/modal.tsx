@@ -26,7 +26,7 @@ export const AuctionModal = ({
     <div
       className={`${
         modalOpen ? "z-50" : "hidden"
-      } absolute inset-0 overflow-y-auto bg-black bg-opacity-50 min-h-screen min-w-screen h-auto flex justify-center items-center`}
+      } fixed inset-0 overflow-y-auto bg-black bg-opacity-50 min-h-screen min-w-screen h-auto flex justify-center items-center`}
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"

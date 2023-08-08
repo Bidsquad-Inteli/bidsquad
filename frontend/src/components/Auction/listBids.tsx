@@ -18,7 +18,7 @@ const BidList = ({owner, amount}: Bid) => {
           Here you can see a list of all bids on this auction
         </label>
       </div>
-      <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full mb-12 flex flex-col items-center justify-center">
         <div className="flex flex-row justify-between items-center border-[3px] border-black w-[85%] h-[60px] rounded-xl px-4">
           <div className="flex items-center justify-center gap-2">
             <Jazzicon

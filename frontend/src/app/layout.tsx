@@ -1,20 +1,20 @@
 import MetamaskProvider from "@/contexts/metamask";
 import "../styles/globals.css";
 import { Toaster } from "react-hot-toast";
-import { Inter } from "next/font/google"
+import { Montserrat } from "next/font/google"
 
 export const metadata = {
     title: "Bidsquad",
 };
 
-const inter = Inter({
+const montserrat = Montserrat({
     subsets: ["latin"],
     display: "swap",
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className={inter.className}>
+        <html lang="en" className={montserrat.className}>
             <body>
                 <MetamaskProvider>
                     {children}
