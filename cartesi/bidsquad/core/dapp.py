@@ -63,7 +63,7 @@ def send_request(output):
 
 
 def handle_advance(data):
-    logger.debug(f"Received advance request data {data}")
+    logger.debug(f"Received advance request")
     try:
         msg_sender = data["metadata"]["msg_sender"]
         payload = data["payload"]
@@ -106,7 +106,7 @@ def handle_advance(data):
 
 
 def handle_inspect(data):
-    logger.debug(f"Received inspect request data {data}")
+    logger.debug(f"Received inspect request data")
     try:
         url = urlparse(hex_to_str(data["payload"]))
         return router.process(url.path, data)

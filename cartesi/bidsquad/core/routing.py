@@ -55,6 +55,10 @@ class DepositERC20Route(WalletRoute):
 
     def execute(self, match_result, request=None):
         return self._wallet.erc20_deposit_process(request)
+    
+class DepositEtherRoute(WalletRoute):
+    def execute(self, match_result, request=None):
+        return self._wallet.ether_deposit_process(request)
 
 class DepositERC721Route(WalletRoute):
 
@@ -158,7 +162,9 @@ class CreateAuctionRoute(AuctioneerRoute):
                                                    "start_date"),
                                                self._request_args.get(
                                                    "end_date"),
-                                               self._msg_timestamp)
+                                               self._msg_timestamp,
+                                                self._request_args("maxTokenizationCost")
+                                               )
 
 
 class EndAuctionRoute(AuctioneerRoute):
@@ -245,6 +251,7 @@ class Router():
             "erc721_transfer": TransferErc721Route(wallet),
             "erc20_withdraw": WithdrawErc20Route(wallet),
             "erc20_transfer": TransferErc20Route(wallet),
+            "ether_deposit": DepositEtherRoute(wallet),
         }
 
         self._route_map = Mapper()
@@ -299,6 +306,10 @@ class Router():
         self._route_map.connect(None,
                                 "erc20transfer",
                                 controller="erc20_transfer",
+                                action="execute"),
+        self._route_map.connect(None,
+                                "ether_deposit",
+                                controller="ether_deposit",
                                 action="execute"),
         
 

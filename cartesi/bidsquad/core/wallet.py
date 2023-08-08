@@ -69,6 +69,18 @@ def erc20_deposit_process(payload:str):
         logger.debug(error_msg, exc_info=True)
         return Error(error_msg)
 
+def ether_deposit_process(payload:str):
+    binary_payload = bytes.fromhex(payload[2:])
+    try:
+        account, amount = _ether_deposit_parse(binary_payload)
+        logger.info(f"'{amount}' ethers deposited "
+                    f"in account '{account}'")
+        return _ether_deposit(account, amount)
+    except ValueError as error:
+        error_msg = f"{error}"
+        logger.debug(error_msg, exc_info=True)
+        return Error(error_msg)
+
 
 def erc721_deposit_process(payload:str):
     '''
@@ -93,6 +105,23 @@ def erc721_deposit_process(payload:str):
         error_msg = f"{error}"
         logger.debug(error_msg, exc_info=True)
         return Error(error_msg)
+    
+
+def _ether_deposit_parse(binary_payload: bytes):
+    try:
+        input_data = decode_packed(
+            ['address',  # Address of the depositor
+             'uint256'], # Amount of ERC-20 tokens being deposited
+            binary_payload
+        )
+
+        account = input_data[0]
+        amount = input_data[1]
+        return account,  amount
+    except Exception as error:
+        raise ValueError(
+            "Payload does not conform to Ether transfer ABI") from error
+
 
 def _erc20_deposit_parse(binary_payload: bytes):
     '''
@@ -159,6 +188,18 @@ def _erc721_deposit_parse(binary_payload: bytes):
         raise ValueError(
             "Payload does not conform to ERC-721 transfer ABI") from error
 
+def _ether_deposit(account, amount):
+    balance = _balance_get(account)
+    balance._ether_increase(amount)
+
+    notice_payload = {
+        "type": "etherdeposit",
+        "content": {
+            "address": account,
+            "amount": amount
+        }
+    }
+    return Notice(json.dumps(notice_payload))
 
 def _erc20_deposit(account, erc20, amount):
     '''

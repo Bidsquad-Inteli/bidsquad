@@ -21,8 +21,9 @@ from core.model import Auction, Bid, Item
 from core.outputs import Error, Log, Notice, Output
 import numpy as np
 from tensorflow.keras.models import load_model
-import  cv2
+import cv2
 import base64
+
 
 def decode_image_from_base64(base64_string):
     image_bytes = base64.b64decode(base64_string)
@@ -30,15 +31,17 @@ def decode_image_from_base64(base64_string):
     image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
     return image
 
+
 def get_carbon_credits_for_sattelite_image(base64Image: str):
-    model = load_model('./model/model.h5')
+    model = load_model("./model/model.h5")
     img = decode_image_from_base64(base64Image)
-  
-    img = cv2.resize(img, (256, 256)) 
+
+    img = cv2.resize(img, (256, 256))
     img = np.array(img) / 255
     img = np.expand_dims(img, axis=0)
     results = round(float(model.predict(img)[0][0]), 1)
     return results
+
 
 class Auctioneer:
     def __init__(self, wallet: Wallet):
@@ -55,6 +58,7 @@ class Auctioneer:
         start_date: datetime,
         end_date: datetime,
         current_date: datetime,
+        maxTokenizationCost: int,
     ):
         try:
             # if start_date < current_date:
@@ -73,6 +77,7 @@ class Auctioneer:
                 description,
                 start_date,
                 end_date,
+                maxTokenizationCost,
             )
             self._auctions[auction._id] = auction
 
@@ -137,13 +142,17 @@ class Auctioneer:
             if not auction:
                 raise ValueError(f"There's no auction with id {auction_id}")
             if msg_date < auction.end_date:
-                raise ValueError(f"It can only end after {auction.end_date.isoformat()}")
+                raise ValueError(
+                    f"It can only end after {auction.end_date.isoformat()}"
+                )
             notice_template = '{{"type": "auction_end", "content": {}}}'
             winning_bid = auction.winning_bid
             outputs: list[Output] = []
 
             if not winning_bid:
-                notice_payload = notice_template.format(f'{{"auction_id": {auction.id}}}')
+                notice_payload = notice_template.format(
+                    f'{{"auction_id": {auction.id}}}'
+                )
                 notice = Notice(notice_payload)
                 outputs.append(notice)
             else:

@@ -122,7 +122,7 @@ class Auction:
     _id = itertools.count()
 
     def __init__(self, creator: str, carbonCredit: int, satteliteImageUrl: str, title: str, description: str,
-                 start_date: datetime, end_date: datetime):
+                 start_date: datetime, end_date: datetime, maxTokenizationCost: int):
         if end_date <= start_date:
             raise ValueError(
                 f"End date ({end_date}) must be after start date ({start_date})")
@@ -136,6 +136,7 @@ class Auction:
         self._description = description
         self._start_date = start_date
         self._end_date = end_date
+        self._maxTokenizationCost = maxTokenizationCost
         self._bids: list[Bid] = []
 
     @property

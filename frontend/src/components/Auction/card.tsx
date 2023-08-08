@@ -3,13 +3,29 @@
 
 import Link from "next/link";
 import React, { useEffect } from "react";
-import { BsCalendarCheckFill, BsCalendar2XFill } from "react-icons/bs";
 
-import { RiAuctionFill } from "react-icons/ri";
 
+import { sendInput } from "@/utils/send_data";
+import { hex2str } from "@/utils/utils";
+import Image from "next/image";
 import Jazzicon from "react-jazzicon";
 import { AuctionModal } from "./modal";
-import Image from "next/image";
+
+interface BidsData {
+  amount: number;
+  auction_id: number;
+  author: string;
+  timestamp: number;
+}
+
+interface BidsArgs {
+  amount: number;
+  auction_id: number;
+}
+interface Bids {
+  method: string;
+  args: BidsArgs;
+}
 
 export const AuctionCard = ({
     id,
@@ -22,17 +38,19 @@ export const AuctionCard = ({
     state,
     creator,
 }: {
-    id: string;
-    creator: string;
-    carbonCredit: number;
-    state: number;
-    satteliteImageUrl: string;
-    title: string;
-    description: string;
-    startDate: string;
-    endDate: string;
+  id: string;
+  state: number;
+  creator: string;
+  carbonCredit: number;
+  satteliteImageUrl: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: number;
 }) => {
-    const [timeToFinnish, setTimeToFinnish] = React.useState<number>(0);
+  const [timeToFinnish, setTimeToFinnish] = React.useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
     useEffect(() => {
         if (!endDate) return;
@@ -43,11 +61,48 @@ export const AuctionCard = ({
         const diffDays = diff / (1000 * 3600 * 24);
         const diffDaysRounded = Math.round(diffDays);
 
-        setTimeToFinnish(diffDaysRounded);
-    }, [endDate]);
+    setTimeToFinnish(diffDaysRounded);
+  }, [endDate]);
 
-    const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
-    const toggleModal = () => setIsModalOpen(!isModalOpen);
+  useEffect(() => {
+    if (isModalOpen) {
+      // TODO: pass the correct id
+      getBidsData(0);
+    }
+  }, [isModalOpen]);
+
+  //   Função para pegar as ofertas de um leilão específico
+  const getBidsData = async (id): Promise<BidsData[] | null> => {
+    try {
+      const bids = await fetch(
+        `http://localhost:5005/inspect/auctions/${id}/bids`
+      );
+      const data = await bids.json();
+
+      let bidsData = [];
+      for (let i in data.reports) {
+        let payload = data.reports[i].payload;
+        bidsData = JSON.parse(`${hex2str(payload)}`);
+      }
+
+      return data as BidsData[];
+    } catch (err) {
+      console.log("ERRO", err);
+      return null;
+    }
+  };
+
+  // Função para realizar uma oferta no leilão
+  const sendBid = async (id, amount) => {
+    const payload: Bids = {
+      method: "bid",
+      args: {
+        amount: amount,
+        auction_id: id,
+      },
+    };
+    return await sendInput(payload);
+  };
 
     return (
         <>
@@ -109,7 +164,7 @@ export const AuctionCard = ({
                         </label>
                     </div>
 
-                    <hr className="w-full border-[0.25px] border-gray-100 mt-4"></hr>
+          <hr className="w-full border-[0.25px] border-gray-100 mt-4"></hr>
 
                     <div className="w-full flex flex-row justify-between items-center ml-2 mt-8">
                         <div className="flex flex-col items-start justify-center">
