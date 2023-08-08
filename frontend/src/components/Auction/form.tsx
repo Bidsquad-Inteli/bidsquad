@@ -3,12 +3,12 @@ import { fetchImageAndConvertToBase64, sendToIPFS, toUnixTime } from "@/utils/ut
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { StageControls } from "./StageControls";
+import { StageControls } from "../StageControls";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
-import { InputForm } from "./InputForm";
+import { InputForm } from "../Input/form";
 import { WaveTopBottomLoading } from "react-loadingg";
 
 const schema = yup

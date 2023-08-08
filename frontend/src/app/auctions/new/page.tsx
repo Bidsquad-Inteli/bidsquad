@@ -5,8 +5,8 @@ import { WaveTopBottomLoading } from "react-loadingg";
 
 import { useState } from "react";
 
-import { AuctionForm } from "@/components/AuctionForm";
-import { CoordinateForm } from "@/components/CoordinateForm";
+import { AuctionForm } from "@/components/Auction/form";
+import { CoordinateForm } from "@/components/Coordinate/form";
 
 enum Stages {
     COORDINATES = 0,

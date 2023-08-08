@@ -1,5 +1,5 @@
 "use client";
-import { AuctionCard } from "../../components/auction/card";
+import { AuctionCard } from "../../components/Auction/card";
 import { Layout } from "../../components/Layout";
 
 import { AiOutlinePlus, AiOutlineReload } from "react-icons/ai";
@@ -57,19 +57,19 @@ const AuctionPage = () => {
             console.log(auctions)
             setAuctions(auctions);
         } catch (err) {
-            // setAuctions([
-            //     {
-            //         id: "1",
-            //         state: 1,
-            //         creator: "0x000000",
-            //         carbonCredit: 100,
-            //         satteliteImageUrl: "https://imgur.com/R1DlCa4.png",
-            //         title: "Auction 1",
-            //         description: "Auction 1",
-            //         startDate: "2021-10-10",
-            //         endDate: "2021-10-10",
-            //     },
-            // ]);
+                // setAuctions([
+                //     {
+                //         id: "1",
+                //         state: 1,
+                //         creator: "0x000000",
+                //         carbonCredit: 100,
+                //         satteliteImageUrl: "https://imgur.com/R1DlCa4.png",
+                //         title: "Auction 1",
+                //         description: "Auction 1",
+                //         startDate: "2021-10-10",
+                //         endDate: "2021-10-10",
+                //     },
+                // ]);
         }
     };
 

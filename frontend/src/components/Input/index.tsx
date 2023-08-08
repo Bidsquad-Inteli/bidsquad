@@ -10,7 +10,7 @@ export interface InputProps {
 export const Input: React.FC<InputProps> = ({ placeholder,name,register, type = "text" }) => {
     return (
         <input
-            className="border-2 border-blue-500 px-2 py-2 rounded outline-0 w-full"
+            className="border-2 border-blue-500 px-2 py-2 rounded outline-0 w-full mb-2"
             type={type}
             placeholder={placeholder}
             {...register(name)}
