@@ -191,7 +191,6 @@ class EndAuctionRoute(AuctioneerRoute):
                                             self._msg_sender,
                                             self._request_args.get("withdraw", False))
 
-
 class PlaceBidRoute(AuctioneerRoute):
 
     def execute(self, match_result, request=None):

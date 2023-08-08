@@ -25,13 +25,26 @@ class Balance():
         self._erc20 = erc20 if erc20 else {}
         self._erc721 = erc721 if erc721 else {}
 
-    def _ether_increase(self,  amount: int):
+    def _ether_increase(self, amount: int):
         if amount < 0:
             raise ValueError(
                 f"Failed to increase ether balance for {self._account}. "
                 f"{amount} should be a positive number")
 
         self._etherBalance = self._etherBalance + amount
+
+    def _ether_decrease(self, amount: int):
+        if amount < 0:
+            raise ValueError(
+                f"Failed to decrease balance for {self._account}. "
+                f"{amount} should be a positive number")
+
+        if self._etherBalance < amount:
+            raise ValueError(
+                f"Failed to decrease balance for {self._account}. "
+                f"Not enough funds to decrease {amount}")
+
+        self._etherBalance = self._etherBalance - amount
 
     def erc20_get(self, erc20: str) -> int:
         return self._erc20.get(erc20, 0)
