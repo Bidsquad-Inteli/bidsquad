@@ -131,7 +131,7 @@ const Home = () => {
                     {!account ? (
                         <button
                             onClick={connectToMetamask}
-                            className="bg-primary hover:bg-[#00c0c7] text-gray-800 hover:text-white px-8 py-3 rounded-lg font-semibold flex justify-between items-center mt-4"
+                            className="bg-primary hover:bg-[#00c0c7] text-gray-800 hover:text-white px-8 py-3 rounded-lg font-semibold flex justify-between items-center mt-4 transition-all"
                         >
                             <Image
                                 alt="Metamask logo"

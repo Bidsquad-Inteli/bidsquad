@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
@@ -13,13 +14,13 @@ import Image from "next/image";
 export const AuctionCard = ({
     id,
     title,
+    satteliteImageUrl,
     description,
     carbonCredit,
     startDate,
     endDate,
     state,
     creator,
-    satteliteImageUrl,
 }: {
     id: string;
     creator: string;
@@ -34,6 +35,8 @@ export const AuctionCard = ({
     const [timeToFinnish, setTimeToFinnish] = React.useState<number>(0);
 
     useEffect(() => {
+        if (!endDate) return;
+        // const finalDate = new Date(endDate * 1000);
         const finalDate = new Date(endDate);
         const now = new Date();
         const diff = finalDate.getTime() - now.getTime();
@@ -41,7 +44,7 @@ export const AuctionCard = ({
         const diffDaysRounded = Math.round(diffDays);
 
         setTimeToFinnish(diffDaysRounded);
-    }, []);
+    }, [endDate]);
 
     const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
     const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -68,11 +71,12 @@ export const AuctionCard = ({
                 className="flex flex-col w-[400px] border-[0.25px] border-grey-100 p-4 rounded-xl overflow-hidden hover:scale-105 transition duration-150 bg-white ease-in-out hover:cursor-grabbing	"
             >
                 <div className="flex flex-col w-full">
-                    <div className="w-full flex items-center justify-center relative h-40%">
+                    <div className="w-full relative h-80">
                         {/* <img
-                            className="z-[1] rounded-xl h-[300px]"
-                            src="https://imgur.com/Bkvv5qE.png"
-                        ></img> */}
+                            src={satteliteImageUrl}
+                            alt="Auction item image"
+                            className="object-cover w-full h-full"
+                        /> */}
                         <Image
                             src={satteliteImageUrl}
                             alt="Auction item image"
@@ -110,7 +114,7 @@ export const AuctionCard = ({
                     <div className="w-full flex flex-row justify-between items-center ml-2 mt-8">
                         <div className="flex flex-col items-start justify-center">
                             <label className="text-sm text-grey-200 font-bold">
-                                C$ {carbonCredit}
+                                Carbon credits: {carbonCredit}
                             </label>
                             <label className="text-2xl font-bold">
                                 R$ 1000
@@ -124,7 +128,7 @@ export const AuctionCard = ({
                                 href={`/auction/${id}`}
                                 className="bg-black hover:bg-primary transition text-white font-bold py-2 px-4 rounded"
                             >
-                                Ver Mais
+                                See more
                             </Link>
                         </div>
                     </div>
