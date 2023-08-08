@@ -16,26 +16,14 @@ import * as yup from "yup";
 import { InputForm } from "./InputForm";
 
 const schema = yup
-  .object()
-  .shape({
-    title: yup
-      .string()
-      .typeError("This must be a string")
-      .required("This is a required field"),
-    description: yup
-      .string()
-      .typeError("This must be a string")
-      .required("This is a required field"),
-    startDate: yup
-      .date()
-      .typeError("This must be a date")
-      .required("This is a required field"),
-    endDate: yup
-      .date()
-      .typeError("This must be a date")
-      .required("This is a required field"),
-  })
-  .required();
+    .object()
+    .shape({
+        title: yup.string().typeError("This must be a string").required("This is a required field"),
+        description: yup.string().typeError("This must be a string").required("This is a required field"),
+        startDate: yup.date().typeError("This must be a date").required("This is a required field"),
+        endDate: yup.date().typeError("This must be a date").required("This is a required field"),
+    })
+    .required();
 
 interface AuctionFormProps {
   stage: number;
@@ -77,7 +65,7 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({
 
       console.log("Payload:", payload);
 
-      await sendInput(payload);
+            await createAuction(payload, data.maxTokenizationCost);
 
       toast.success("Auction created successfully!");
       router.replace("/auctions");
@@ -100,39 +88,33 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({
     return <WaveTopBottomLoading color="#3B82F6" size="large" />;
   }
 
-  return (
-    <form className="mt-10 md:mt-24  px-[10%] md:px-[30%] flex flex-col gap-6">
-      <h4 className="text-center text-2xl">Fill up the auction details</h4>
-      <InputForm
-        errors={errors}
-        name="title"
-        placeholder="Title"
-        register={register}
-        label="Title"
-      />
-      <InputForm
-        errors={errors}
-        name="description"
-        placeholder="Description"
-        register={register}
-        label="Description"
-      />
-      <InputForm
-        errors={errors}
-        name="startDate"
-        placeholder="Start date"
-        register={register}
-        type="date"
-        label="Start date"
-      />
-      <InputForm
-        errors={errors}
-        name="endDate"
-        placeholder="End date"
-        register={register}
-        type="date"
-        label="End date"
-      />
+    return (
+        <form className="mt-10 md:mt-24  px-[10%] md:px-[30%] flex flex-col gap-6">
+            <h4 className="text-center text-2xl">Fill up the auction details</h4>
+            <InputForm errors={errors} name="title" placeholder="Title" register={register} label="Title" />
+            <InputForm
+                errors={errors}
+                name="description"
+                placeholder="Description"
+                register={register}
+                label="Description"
+            />
+            <InputForm
+                errors={errors}
+                name="startDate"
+                placeholder="Start date"
+                register={register}
+                type="date"
+                label="Start date"
+            />
+            <InputForm
+                errors={errors}
+                name="endDate"
+                placeholder="End date"
+                register={register}
+                type="date"
+                label="End date"
+            />
 
       <StageControls
         onSubmit={handleSubmit(onSubmit)}

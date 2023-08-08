@@ -39,6 +39,9 @@ input_box_contract = json.load(input_box_file)
 erc721_portal_file = open(f'./deployments/{network}/ERC721Portal.json')
 erc721_portal = json.load(erc721_portal_file)
 
+ether_portal_file = open(f'./deployments/{network}/EtherPortal.json')
+ether_portal = json.load(ether_portal_file)
+
 dapp_address_relay_file = open(f'./deployments/{network}/DAppAddressRelay.json')
 dapp_address_relay = json.load(dapp_address_relay_file)
 
@@ -89,6 +92,13 @@ def handle_advance(data):
                 return router.process("erc721_deposit", payload)
             except Exception as error:
                 error_msg = f"Failed to process ERC721 deposit '{payload}'. {error}"
+                logger.debug(error_msg, exc_info=True)
+                return Error(error_msg)
+        elif msg_sender.lower() == ether_portal['address'].lower():
+            try:
+                return router.process("ether_deposit", payload)
+            except Exception as error:
+                error_msg = f"Failed to process Ether deposit '{payload}'. {error}"
                 logger.debug(error_msg, exc_info=True)
                 return Error(error_msg)
         else:
