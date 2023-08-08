@@ -16,7 +16,7 @@ export const StageControls: React.FC<StageControlsProps> = ({
     submitButtonText,
 }) => {
     return (
-        <div className="w-full flex flex-row items-center justify-center gap-2 mt-12">
+        <div className="w-full flex flex-row items-center justify-center gap-2 mt-12 mb-12">
             {onPrevious && <Button disabled={previousButtonDisabled} onClick={onPrevious} text="Back Page" />}
             <Button disabled={submitButtonDisabled} onClick={onSubmit} text={submitButtonText} />
         </div>

@@ -55,19 +55,19 @@ const AuctionPage = () => {
       console.log(auctions);
       setAuctions(auctions);
     } catch (err) {
-      // setAuctions([
-      //     {
-      //         id: "1",
-      //         state: 1,
-      //         creator: "0x000000",
-      //         carbonCredit: 100,
-      //         satteliteImageUrl: "https://imgur.com/R1DlCa4.png",
-      //         title: "Auction 1",
-      //         description: "Auction 1",
-      //         startDate: "2021-10-10",
-      //         endDate: "2021-10-10",
-      //     },
-      // ]);
+      setAuctions([
+          {
+              id: "1",
+              state: 1,
+              creator: "0x71ce1e91bD8c4673e09EAb1F7a4D79B646d66874",
+              carbonCredit: 100,
+              satteliteImageUrl: "https://imgur.com/R1DlCa4.png",
+              title: "Auction Teste",
+              description: "Auction Teste Description",
+              startDate: "12/04/2004",
+              endDate: "12/04/2004",
+          },
+      ]);
     }
   };
 
