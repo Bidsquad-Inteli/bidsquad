@@ -3,15 +3,13 @@
 
 import Link from "next/link";
 import React, { useEffect } from "react";
-import { BsCalendarCheckFill, BsCalendar2XFill } from "react-icons/bs";
 
-import { RiAuctionFill } from "react-icons/ri";
 
+import { sendInput } from "@/utils/send_data";
+import { hex2str } from "@/utils/utils";
+import Image from "next/image";
 import Jazzicon from "react-jazzicon";
 import { AuctionModal } from "./modal";
-import Image from "next/image";
-import { hex2str } from "@/utils/utils";
-import { sendInput } from "@/utils/send_data";
 
 interface BidsData {
   amount: number;

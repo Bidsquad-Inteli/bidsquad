@@ -6,8 +6,7 @@ const ETHERPORTAL_ADDRESS = "0xA89A3216F46F66486C9B794C1e28d3c44D59591e";
 
 const DAPP_ADDRESS = "0x142105FC8dA71191b3a13C738Ba0cF4BC33325e2";
 
-export async function createAuction(payload, maxTokenizationCost) {
-  console.log(payload)
+export async function depositEther(maxTokenizationCost) {
     // Start a connection
     const provider = new ethers.providers.Web3Provider((window as any).ethereum);
     const signer = provider.getSigner();
@@ -17,9 +16,15 @@ export async function createAuction(payload, maxTokenizationCost) {
 
     const depositAmount = ethers.utils.parseEther(maxTokenizationCost.toString());
     const bytes = ethers.utils.toUtf8Bytes("");
-   
+
     const depositTx = await etherPortal.depositEther(DAPP_ADDRESS, bytes, { value: depositAmount });
-    await depositTx.wait(1);
+    await depositTx.wait();
+}
+
+export async function sendInput(payload) {
+    // Start a connection
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+    const signer = provider.getSigner();
 
     // Instantiate the InputBox contract
     const inputBox = InputBox__factory.connect(INPUTBOX_ADDRESS, signer);
@@ -34,7 +39,7 @@ export async function createAuction(payload, maxTokenizationCost) {
     // tx contains all data about the transaction
     // Wait for confirmation
     console.log("waiting for confirmation...");
-    const receipt = await tx.wait(1);
+    const receipt = await tx.wait();
 
     // Search for the InputAdded event
     const event = receipt.events?.find((e) => e.event === "InputAdded");
