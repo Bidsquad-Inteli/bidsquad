@@ -18,6 +18,7 @@ const schema = yup
         description: yup.string().typeError("This must be a string").required("This is a required field"),
         startDate: yup.date().typeError("This must be a date").required("This is a required field"),
         endDate: yup.date().typeError("This must be a date").required("This is a required field"),
+        maxTokenizationCost: yup.number().typeError("This must be a number").required("This is a required field"),
     })
     .required();
 
@@ -57,7 +58,7 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({ setStage, stage, mapUr
 
             console.log("Payload:", payload);
 
-            await createAuction(payload);
+            await createAuction(payload, data.maxTokenizationCost);
 
             toast.success("Auction created successfully!");
             router.replace("/auctions");
@@ -106,6 +107,15 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({ setStage, stage, mapUr
                 register={register}
                 type="date"
                 label="End date"
+            />
+
+            <InputForm
+                errors={errors}
+                name="maxTokenizationCost"
+                placeholder="Max Tokenization Cost"
+                register={register}
+                type="number"
+                label="Max Tokenization Cost"
             />
 
             <StageControls
