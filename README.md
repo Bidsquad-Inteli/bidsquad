@@ -131,7 +131,29 @@ Maria is an experienced professional in the environmental certification field, f
 
 ## Folder Structure
 
-...
+### Frontend
+
+-   `frontend`
+    -   `src`
+        -   `app` (main app component & pages)
+            -   `auctions` (auctions page)
+        -   `components` (reusable components)
+        -   `contexts` (global contexts)
+        -   `assets` (images, icons, etc.)
+        -   `utils` (utility functions)
+
+### Cartesi
+
+-   `cartesi`
+    -   `bidsquad` (Cartesi Machine)
+        -   `core` (core logic)
+        -   `deployment` (deployment scripts)
+
+### AI
+
+-   `AI`
+    -   `ai.ipynb` (AI model)
+    -   `imgs` (images used in the AI model)
 
 ---
 
@@ -147,46 +169,7 @@ Maria is an experienced professional in the environmental certification field, f
 
 ---
 
-## Features
-
--   Add areas with potential carbon consumption using coordinates.
--   Advanced AI estimation of carbon credit potential for added areas.
--   Carbon certifiers can place competitive bids in reverse auctions.
--   Transparent and secure blockchain-based transaction system.
--   Sustainable projects are promoted through the acquisition of carbon credits.
-
-## Demo
-
-[Live Demo](#) - Coming soon!
-
-## Getting Started
-
-Coming soon...
-
-## Dependencies
-
-The BidSquad project utilizes the following key technologies and dependencies:
-
--   Next.js: A React framework for building server-side rendered React applications.
--   Cartesi: A blockchain technology used for secure off-chain computation and smart contract execution.
--   Web3.js: A library for interacting with the Ethereum blockchain.
--   **AI/ML Libraries (TensorFlow, PyTorch, etc.): Used for AI-based carbon credit estimation.**
-
-## How it Works
-
-1. **User creates their property:** The user adds their property to the platform by marking its points (coordinates).
-
-2. **Satellite Image Retrieval:** The platform retrieves a satellite image of the property using Google Earth, and this image is sent to the backend of the Cartesi dApp.
-
-3. **AI Assessment:** The AI within Cartesi receives the satellite image and performs an evaluation of the area, estimating the potential carbon credit generation for that property.
-
-4. **Carbon Credit Generation on the Blockchain:** Based on the AI assessment, the property's carbon credit potential is generated and recorded on the blockchain.
-
-5. **Bidding from Certifiers:** The property is now ready to receive bids from carbon credit certifying companies. These companies make proposals for the payment value of their certification services, indicating their interest in validating the amount of carbon credits generated.
-
-6. **Auction Closure:** At the end of the auction, the bidding process is closed, and the lowest bid wins the right to certify the carbon credits for the property.
-
-## Nosso time
+## Our team
 
 <table>
   <tr>
@@ -231,4 +214,4 @@ The BidSquad project utilizes the following key technologies and dependencies:
       </a>
     </td>
   </tr>
-</table
+</table>
