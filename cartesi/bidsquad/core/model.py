@@ -187,11 +187,7 @@ class Auction:
 
         if bid.auction_id != self.id:
             raise ValueError(f"Auction id ({bid.auction_id}) does not match")
-
-        # if bid.amount < self.min_bid_amount:
-        #     raise ValueError(
-        #         f"Bid amount ({bid.amount}) did not meet minimum bid amount " +
-        #         f"({self.min_bid_amount})")
+        
         if self.winning_bid is None or bid < self.winning_bid:
             self._bids.append(bid)
         else:

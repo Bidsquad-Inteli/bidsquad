@@ -20,9 +20,9 @@ from core.log import logger
 from core.model import Auction, Bid, Item
 from core.outputs import Error, Log, Notice, Output
 import numpy as np
-from tensorflow.keras.models import load_model
 import cv2
 import base64
+import keras
 
 
 def decode_image_from_base64(base64_string):
@@ -33,7 +33,7 @@ def decode_image_from_base64(base64_string):
 
 
 def get_carbon_credits_for_sattelite_image(base64Image: str):
-    model = load_model("./model/model.h5")
+    model = keras.models.load_model('./model/model.keras')
     img = decode_image_from_base64(base64Image)
 
     img = cv2.resize(img, (256, 256))
@@ -105,6 +105,7 @@ class Auctioneer:
 
     def auction_bid(self, bidder, auction_id, amount, timestamp):
         try:
+            logger.info(bidder, 'bidder')
             auction = self._auctions.get(auction_id)
             if not auction:
                 raise ValueError(f"There's no auction with id {auction_id}")

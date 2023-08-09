@@ -184,7 +184,7 @@ class EndAuctionRoute(AuctioneerRoute):
     def execute(self, match_result, request=None):
         super().execute(match_result, request)
         if self._rollup_address is None:
-            return Error ("DApp Address is needed to end an core. Check Dapp documentation on how to proper set the DApp Address")
+            return Error ("DApp Address is needed to end an Auction. Check Dapp documentation on how to proper set the DApp Address")
         return self._auctioneer.auction_end(self._request_args.get("auction_id"),
                                             self._rollup_address,
                                             self._msg_timestamp,
