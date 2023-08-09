@@ -2,6 +2,18 @@
 import Image from "next/image";
 import { RiCloseFill } from "react-icons/ri";
 import BidList from "./listBids";
+import { sendInput } from "@/utils/send_data";
+import { useEffect, useState } from "react";
+import { BidsData, getBidsData } from "@/utils/getData";
+
+interface BidsArgs {
+  amount: number;
+  auction_id: number;
+}
+interface Bids {
+  method: string;
+  args: BidsArgs;
+}
 
 export const AuctionModal = ({
   auction,
@@ -22,6 +34,27 @@ export const AuctionModal = ({
   modalOpen: boolean;
   closeModal: () => void;
 }) => {
+  const [bidValue, setBidValue] = useState<Number>(0);
+  const [bids, setBids] = useState<BidsData[]>([]);
+
+  // Função para realizar uma oferta no leilão
+  const sendBid = async (id, amount) => {
+    const payload: Bids = {
+      method: "bid",
+      args: {
+        amount: amount,
+        auction_id: id,
+      },
+    };
+    return await sendInput(payload);
+  };
+
+  useEffect(() => {
+    getBidsData(auction.id).then((data) => {
+      if (data) setBids(data);
+    });
+  }, [modalOpen]);
+
   return (
     <div
       className={`${
@@ -121,17 +154,34 @@ export const AuctionModal = ({
                   type="number"
                   placeholder="Value of Bid"
                   className="w-[55%] h-[40px] border-[3px] border-primary outline-0 pl-4 rounded-md placeholder:text-black"
+                  onChange={(e) => {
+                    setBidValue(Number(e.target.value));
+                  }}
                 ></input>
-                <button className="w-[40%] h-[40px]  bg-primary outline-0 rounded-md">Bid 💵</button>
+                <button
+                  className="w-[40%] h-[40px]  bg-primary outline-0 rounded-md"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    sendBid(Number(auction.id), bidValue);
+                  }}
+                >
+                  Bid 💵
+                </button>
               </div>
             </div>
           </div>
 
           <div className="mt-4 w-full flex flex-col">
-            <BidList
-              owner="0x71ce1e91bD8c4673e09EAb1F7a4D79B646d66874"
-              amount={1000}
-            />
+            {bids ? (
+              bids.map((bid: BidsData, key) => {
+                return (
+                  <BidList key={key} owner={bid.author} amount={bid.amount} />
+                );
+              })
+            ) : (
+              // TODO! If there is no bids, show a message
+              <div></div>
+            )}
           </div>
         </div>
       </div>

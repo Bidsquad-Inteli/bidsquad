@@ -1,15 +1,12 @@
-import React from "react";
-
-import { AiOutlinePlus, AiOutlineReload } from "react-icons/ai";
+import { FaEthereum } from "react-icons/fa";
 import Jazzicon from "react-jazzicon";
 
 interface Bid {
-    owner: string;
-    amount: number;
+  owner: string;
+  amount: number;
 }
 
-const BidList = ({owner, amount}: Bid) => {
-
+const BidList = ({ owner, amount }: Bid) => {
   return (
     <>
       <div className="pl-12 flex flex-col mb-4">
@@ -32,11 +29,9 @@ const BidList = ({owner, amount}: Bid) => {
                   owner.substring(owner.length - 4, owner.length)}
             </div>
           </div>
-          <div>
-            {
-                amount &&
-                <label className="font-bold text-2xl">R$ {amount}</label>
-            }
+          <div className="flex items-center gap-1">
+            {amount && <label className="font-bold text-2xl">{amount}</label>}{" "}
+            <FaEthereum size={30} />
           </div>
         </div>
       </div>

@@ -163,7 +163,7 @@ class CreateAuctionRoute(AuctioneerRoute):
                                                self._request_args.get(
                                                    "end_date"),
                                                self._msg_timestamp,
-                                                self._request_args("maxTokenizationCost")
+                                                self._request_args.get("maxTokenizationCost")
                                                )
 
 

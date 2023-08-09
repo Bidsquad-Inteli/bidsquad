@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { AuctionModal } from "@/components/Auction/modal";
+import { getBidsData } from "@/utils/getData";
 
 interface Auction {
   id: string;
@@ -65,22 +66,30 @@ const AuctionPage = () => {
         let payload = res.exception_payload;
         console.log(`Exception payload: ${hex2str(payload)}`);
       }
-      console.log(auctions);
+      console.log("AUCTIONS PEGAS!", auctions);
+
+      // for (let auction of auctions) {
+      //   const bids = await getBidsData(auction.id);
+      //   console.log(bids)
+      // }
+
       setAuctions(auctions);
+      return;
     } catch (err) {
-      setAuctions([
-        {
-          id: "1",
-          state: 1,
-          creator: "0x71ce1e91bD8c4673e09EAb1F7a4D79B646d66874",
-          carbonCredit: 100,
-          satteliteImageUrl: "https://imgur.com/CqoAKuh.png", //https://imgur.com/R1DlCa4.png
-          title: "Auction Teste",
-          description: "Auction Teste Description",
-          startDate: "12/04/2004",
-          endDate: "12/04/2004",
-        },
-      ]);
+      console.log(err);
+      // setAuctions([
+      //   {
+      //     id: "1",
+      //     state: 1,
+      //     creator: "0x71ce1e91bD8c4673e09EAb1F7a4D79B646d66874",
+      //     carbonCredit: 100,
+      //     satteliteImageUrl: "https://imgur.com/CqoAKuh.png", //https://imgur.com/R1DlCa4.png
+      //     title: "Auction Teste",
+      //     description: "Auction Teste Description",
+      //     startDate: "12/04/2004",
+      //     endDate: "12/04/2004",
+      //   },
+      // ]);
     }
   };
 
@@ -101,7 +110,7 @@ const AuctionPage = () => {
     <Layout title={"Auctions"}>
       <AuctionModal
         modalOpen={isModalOpen}
-        auction={modalContent}
+        auction={modalContent as any}
         closeModal={toggleModal}
       />
       <div className={`${isModalOpen ? "overflow-hidden h-[100%]" : ""} mb-12`}>
