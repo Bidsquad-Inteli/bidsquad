@@ -23,7 +23,7 @@ export const Navbar = () => {
             setAccount(account);
 
             const desiredChainId = "0x7a69";
-            console.log("REDE!!!!!!", ethereum.chainId);
+            // console.log("REDE!!!!!!", ethereum.chainId);
             if (ethereum.chainId !== desiredChainId) {
                 await ethereum.request({
                     method: "wallet_switchEthereumChain",

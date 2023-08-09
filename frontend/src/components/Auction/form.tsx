@@ -77,6 +77,9 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({
       };
 
       await depositEther(data.maxTokenizationCost);
+      toast.success(
+        "Ether deposited successfully! Please wait for the next transaction..."
+      );
       await sendInput(payload);
 
       toast.success("Auction created successfully!");
