@@ -1,12 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 
 import { BidsData, getLatestBidData } from "@/utils/getData";
 import Image from "next/image";
 import Jazzicon from "react-jazzicon";
 import { FaEthereum } from "react-icons/fa";
+import { useMetamask } from "@/contexts/metamask";
+import { DiferenceTime, getTimeDiference } from "@/utils/utils";
 
 export const AuctionCard = ({
   id,
@@ -14,8 +16,8 @@ export const AuctionCard = ({
   satteliteImageUrl,
   description,
   carbonCredit,
-  startDate,
-  endDate,
+  start_date,
+  end_date,
   state,
   creator,
 }: {
@@ -26,28 +28,44 @@ export const AuctionCard = ({
   satteliteImageUrl: string;
   title: string;
   description: string;
-  startDate: string;
-  endDate: number;
+  start_date: number;
+  end_date: number;
 }) => {
-  const [timeToFinnish, setTimeToFinnish] = React.useState<number>(0);
+  const [timeToFinnish, setTimeToFinnish] =
+    React.useState<DiferenceTime | null>();
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [latestBid, setLatestBid] = React.useState<BidsData>();
+  const [owner, setOwner] = React.useState<boolean>(false);
+
+  const metaMask = useMetamask();
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
-  useEffect(() => {
-    if (!endDate) return;
-    // const finalDate = new Date(endDate * 1000);
-    const finalDate = new Date(endDate);
-    const now = new Date();
-    const diff = finalDate.getTime() - now.getTime();
-    const diffDays = diff / (1000 * 3600 * 24);
-    const diffDaysRounded = Math.round(diffDays);
+  // useEffect(() => {
+  //   if (!end_date) return;
+  //   console.log("startDate", start_date)
+  //   console.log("endDate", end_date)
+  //   // const finalDate = new Date(endDate * 1000);
+  //   const finalDate = new Date(end_date);
+  //   const now = new Date();
+  //   const diff = finalDate.getTime() - now.getTime();
+  //   const diffDays = diff / (1000 * 3600 * 24);
+  //   const diffDaysRounded = Math.round(diffDays);
 
-    setTimeToFinnish(diffDaysRounded);
-  }, [endDate]);
+  //   setTimeToFinnish(diffDaysRounded);
+  // }, [end_date]);
 
   useEffect(() => {
+    const timeDiference: DiferenceTime | null = getTimeDiference(
+      start_date,
+      end_date
+    );
+    if (timeDiference) {
+      setTimeToFinnish(timeDiference);
+    } else {
+      setTimeToFinnish(null);
+    }
+    if (creator == metaMask.account) setOwner(true);
     getLatestBidData(id).then((bid) => {
       if (bid) setLatestBid(bid);
     });
@@ -57,8 +75,13 @@ export const AuctionCard = ({
     <>
       <div
         onClick={toggleModal}
-        className="flex flex-col w-[400px] border-[0.25px] border-grey-100 p-4 rounded-xl overflow-hidden hover:scale-105 transition duration-150 bg-white ease-in-out https://open.spotify.com/track/5ffntNJnJOeFv7b7DCd0Bwhover:cursor-grabbing	"
+        className={`flex flex-col w-[400px] ${
+          owner
+            ? "border-primary border-[3px]"
+            : "border-grey-100 border-[0.25px]"
+        } pl-4 pr-4 pt-2 pb-4 rounded-xl overflow-hidden hover:scale-105 transition duration-150 bg-white ease-in-out https://open.spotify.com/track/5ffntNJnJOeFv7b7DCd0Bwhover:cursor-grabbing	`}
       >
+        {owner && <span className="select-none font-bold">OWNER</span>}
         <div className="flex flex-col w-full">
           <div className="w-full flex items-center justify-center relative h-auto">
             {/* <img
@@ -73,8 +96,12 @@ export const AuctionCard = ({
               width={400}
               height={400}
             />
-            <div className="absolute bg-white rounded-xl flex items-center justify-center bottom-[10px] left-[10px] w-auto px-4 h-[40px]">
-              <label>🔥 Ends in: {timeToFinnish} days</label>
+            <div className="absolute bg-white rounded-xl flex items-center justify-center bottom-[10px] left-[10px] w-auto px-4 h-[40px] select-none">
+              <label>
+                {timeToFinnish
+                  ? `🔥 Ends in: ${timeToFinnish.value} ${timeToFinnish.time}`
+                  : `Auction finished`}
+              </label>
             </div>
           </div>
 
