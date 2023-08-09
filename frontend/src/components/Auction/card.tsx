@@ -69,6 +69,7 @@ export const AuctionCard = ({
             <Image
               src={satteliteImageUrl}
               alt="Auction item image"
+              className="rounded-xl"
               width={400}
               height={400}
             />

@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import axios from "axios";
+import dayjs from "dayjs";
 
 export const hex2str = (hex: string) => {
     try {
@@ -59,3 +60,7 @@ export async function sendToIPFS(file) {
 export function toUnixTime(date) {
     return Math.floor(date.getTime() / 1000);
   }
+
+export function fromUnixTime(unixTime) {
+    return dayjs( parseInt(unixTime) * 1000).format('DD/MM/YYYY')
+}

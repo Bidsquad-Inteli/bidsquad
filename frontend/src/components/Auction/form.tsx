@@ -75,8 +75,6 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({
         },
       };
 
-      console.log(data.maxTokenizationCost);
-
       await depositEther(data.maxTokenizationCost);
       await sendInput(payload);
 
