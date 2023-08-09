@@ -10,6 +10,7 @@ import { DiferenceTime, fromUnixTime, getTimeDiference } from "@/utils/utils";
 import { toast } from "react-hot-toast";
 import { useMetamask } from "@/contexts/metamask";
 import { set } from "react-hook-form";
+import { ethers } from "ethers";
 
 interface BidsArgs {
   amount: number;
@@ -59,12 +60,14 @@ export const AuctionModal = ({
       return toast.error("Bid must be less than the winning bid");
     if (account == auction.creator)
       return toast.error("You can't bid on your own auction");
+    
+    const convertedAmount = ethers.utils.parseEther(amount.toString());
 
     try {
       const payload: Bids = {
         method: "bid",
         args: {
-          amount: amount,
+          amount: convertedAmount,
           auction_id: id,
         },
       };

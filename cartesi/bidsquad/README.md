@@ -35,3 +35,4 @@ yarn start inspect --payload "auctions/0/bids"
 
 
 pip install eth_abi requests numpy
+pip install numpy requests keras opencv-python
