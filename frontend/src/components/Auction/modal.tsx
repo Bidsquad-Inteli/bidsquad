@@ -38,14 +38,14 @@ interface AuctionModalProps {
 export const AuctionModal = ({ auction, modalOpen, closeModal }: AuctionModalProps) => {
     const [bidValue, setBidValue] = useState<Number>(0);
     const [bids, setBids] = useState<BidsData[]>([]);
-    const {account} = useMetamask()
+    const { account } = useMetamask();
 
     // Função para realizar uma oferta no leilão
     const sendBid = async (id, amount) => {
-        console.log(account)
+        console.log(account);
         if (amount <= 0) return toast.error("Bid must be greater than 0");
-        if (account == null) return toast.error("Please connect your wallet")
-        if (account == auction.creator) return toast.error("You can't bid on your own auction")
+        if (account == null) return toast.error("Please connect your wallet");
+        if (account == auction.creator) return toast.error("You can't bid on your own auction");
 
         try {
             const payload: Bids = {
@@ -167,11 +167,20 @@ export const AuctionModal = ({ auction, modalOpen, closeModal }: AuctionModalPro
                     </div>
 
                     {bids && (
-                        <div className="mt-4 w-full flex flex-col">
-                            {bids.map((bid: BidsData, key) => (
-                                <BidList key={key} owner={bid.author} amount={bid.amount} />
-                            ))}
-                        </div>
+                        <>
+                            <div className="pl-12 flex flex-col mt-8 mb-4">
+                                <label className="self-start font-bold">Bids 🔥</label>
+                                <label className="self-start font-bold text-gray-400">
+                                    Here you can see a list of all bids on this auction
+                                </label>
+                            </div>
+
+                            <div className="my-4 w-full flex flex-col gap-2 justify-center items-center">
+                                {bids.map((bid: BidsData, key) => (
+                                    <BidList key={key} owner={bid.author} amount={bid.amount} />
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>
