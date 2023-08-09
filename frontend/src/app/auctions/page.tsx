@@ -12,154 +12,165 @@ import { AuctionModal } from "@/components/Auction/modal";
 import { getBidsData } from "@/utils/getData";
 
 interface Auction {
-  id: string;
-  state: number;
-  creator: string;
-  carbonCredit: number;
-  satteliteImageUrl: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: number;
+    id: string;
+    state: number;
+    creator: string;
+    carbonCredit: number;
+    satteliteImageUrl: string;
+    title: string;
+    description: string;
+    startDate: string;
+    endDate: number;
 }
 
 const AuctionPage = () => {
-  const [auctions, setAuctions] = useState<Auction[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [modalContent, setModalContent] = useState<Object>({
-    id: "1",
-    state: 0,
-    creator: "0x0000000",
-    carbonCredit: 0,
-    satteliteImageUrl: "",
-    title: "Teste",
-    description: "Teste",
-    startDate: "12/04/2004",
-    endDate: "12/04/2004",
-  });
+    const [auctions, setAuctions] = useState<Auction[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [modalContent, setModalContent] = useState<Object>({
+        id: "1",
+        state: 0,
+        creator: "0x0000000",
+        carbonCredit: 0,
+        satteliteImageUrl: "",
+        title: "Teste",
+        description: "Teste",
+        startDate: "12/04/2004",
+        endDate: "12/04/2004",
+    });
 
-  //   const router = useRouter();
+    //   const router = useRouter();
 
-  const getAuctions = async () => {
-    try {
-      const response = await fetch("http://localhost:5005/inspect/auctions");
+    const getAuctions = async () => {
+        try {
+            const response = await fetch(
+                "http://localhost:5005/inspect/auctions"
+            );
 
-      if (response.status != 200) {
-        // router.push("/");
-        return;
-      }
+            if (response.status != 200) {
+                // router.push("/");
+                return;
+            }
 
-      const res = await response.json();
+            const res = await response.json();
 
-      console.log(`Inspect status: ${JSON.stringify(res.status)}`);
-      console.log(`Input count: ${JSON.stringify(res.processed_input_count)}`);
-      console.log(`Reports:`);
+            console.log(`Inspect status: ${JSON.stringify(res.status)}`);
+            console.log(
+                `Input count: ${JSON.stringify(res.processed_input_count)}`
+            );
+            console.log(`Reports:`);
 
-      let auctions;
-      console.log(res.reports);
-      for (let i in res.reports) {
-        let payload = res.reports[i].payload;
-        auctions = JSON.parse(`${hex2str(payload)}`);
-      }
-      if (res.exception_payload) {
-        let payload = res.exception_payload;
-        console.log(`Exception payload: ${hex2str(payload)}`);
-      }
-      console.log("AUCTIONS PEGAS!", auctions);
+            let auctions;
+            console.log(res.reports);
+            for (let i in res.reports) {
+                let payload = res.reports[i].payload;
+                auctions = JSON.parse(`${hex2str(payload)}`);
+            }
+            if (res.exception_payload) {
+                let payload = res.exception_payload;
+                console.log(`Exception payload: ${hex2str(payload)}`);
+            }
+            console.log("AUCTIONS PEGAS!", auctions);
 
-      // for (let auction of auctions) {
-      //   const bids = await getBidsData(auction.id);
-      //   console.log(bids)
-      // }
+            // for (let auction of auctions) {
+            //   const bids = await getBidsData(auction.id);
+            //   console.log(bids)
+            // }
 
-      setAuctions(auctions);
-      return;
-    } catch (err) {
-      console.log(err);
-      // setAuctions([
-      //   {
-      //     id: "1",
-      //     state: 1,
-      //     creator: "0x71ce1e91bD8c4673e09EAb1F7a4D79B646d66874",
-      //     carbonCredit: 100,
-      //     satteliteImageUrl: "https://imgur.com/CqoAKuh.png", //https://imgur.com/R1DlCa4.png
-      //     title: "Auction Teste",
-      //     description: "Auction Teste Description",
-      //     startDate: "12/04/2004",
-      //     endDate: "12/04/2004",
-      //   },
-      // ]);
+            setAuctions(auctions);
+            return;
+        } catch (err) {
+            console.log(err);
+            // setAuctions([
+            //   {
+            //     id: "1",
+            //     state: 1,
+            //     creator: "0x71ce1e91bD8c4673e09EAb1F7a4D79B646d66874",
+            //     carbonCredit: 100,
+            //     satteliteImageUrl: "https://imgur.com/CqoAKuh.png", //https://imgur.com/R1DlCa4.png
+            //     title: "Auction Teste",
+            //     description: "Auction Teste Description",
+            //     startDate: "12/04/2004",
+            //     endDate: "12/04/2004",
+            //   },
+            // ]);
+        }
+    };
+
+    useEffect(() => {
+        getAuctions();
+    }, []);
+
+    function openModal(auction) {
+        setModalContent(auction);
+        toggleModal();
     }
-  };
 
-  useEffect(() => {
-    getAuctions();
-  }, []);
+    function toggleModal() {
+        setIsModalOpen(!isModalOpen);
+    }
 
-  function openModal(auction) {
-    setModalContent(auction);
-    toggleModal();
-  }
-
-  function toggleModal() {
-    setIsModalOpen(!isModalOpen);
-  }
-
-  return (
-    <Layout title={"Auctions"}>
-      <AuctionModal
-        modalOpen={isModalOpen}
-        auction={modalContent as any}
-        closeModal={toggleModal}
-      />
-      <div className={`${isModalOpen ? "overflow-hidden h-[100%]" : ""} mb-12`}>
-        <div className="flex justify-between items-center mx-6">
-          <div className="w-auto flex flex-col content-start items-center mt-6 ">
-            <h1 className="w-auto text-3xl self-start font-bold">
-              Live Auctions 🔥
-            </h1>
-            <label className="w-auto text-sm self-start font-bold text-gray-400">
-              Enjoy! The latest hot auctions
-            </label>
-          </div>
-
-          <div>
-            <AiOutlineReload
-              size={40}
-              onClick={getAuctions}
-              className="hover:cursor-pointer hover:scale-105 transition-all"
+    return (
+        <Layout title={"Auctions"}>
+            <AuctionModal
+                modalOpen={isModalOpen}
+                auction={modalContent as any}
+                closeModal={toggleModal}
             />
-          </div>
-        </div>
+            <div
+                className={`${
+                    isModalOpen ? "overflow-hidden h-[100%]" : ""
+                } mb-12`}
+            >
+                <div className="flex justify-between items-center mx-6">
+                    <div className="w-auto flex flex-col content-start items-center mt-6 ">
+                        <h1 className="w-auto text-3xl self-start font-bold">
+                            Live Auctions 🔥
+                        </h1>
+                        <label className="w-auto text-sm self-start font-bold text-gray-400">
+                            Enjoy! The latest hot auctions
+                        </label>
+                    </div>
 
-        <div
-          className={`w-full mt-12 flex flex-wrap justify-center items-center gap-4`}
-        >
-          {auctions.length > 0 ? (
-            auctions.map((auction, index) => (
-              <div
-                onClick={() => {
-                  openModal(auction);
-                }}
-              >
-                <AuctionCard key={index} {...auction} />
-              </div>
-            ))
-          ) : (
-            <p className="mt-16 text-lg">---No auctions available---</p>
-          )}
-        </div>
+                    <div>
+                        <AiOutlineReload
+                            size={40}
+                            onClick={getAuctions}
+                            className="hover:cursor-pointer hover:scale-105 transition-all"
+                        />
+                    </div>
+                </div>
 
-        <Link
-          href={"/auctions/new"}
-          className="fixed flex justify-center items-center bg-primary bottom-[50px] right-[50px] w-[50px] h-[50px] rounded-[50%]"
-        >
-          <AiOutlinePlus size={30} color="white" />
-        </Link>
-      </div>
-    </Layout>
-  );
+                <div
+                    className={`w-full mt-12 flex flex-wrap justify-center items-center gap-4`}
+                >
+                    {auctions.length > 0 ? (
+                        auctions.map((auction, index) => (
+                            <div
+                                onClick={() => {
+                                    openModal(auction);
+                                }}
+                                key={index}
+                            >
+                                <AuctionCard {...auction} />
+                            </div>
+                        ))
+                    ) : (
+                        <p className="mt-16 text-lg">
+                            ---No auctions available---
+                        </p>
+                    )}
+                </div>
+
+                <Link
+                    href={"/auctions/new"}
+                    className="fixed flex justify-center items-center bg-primary bottom-[50px] right-[50px] w-[50px] h-[50px] rounded-[50%]"
+                >
+                    <AiOutlinePlus size={30} color="white" />
+                </Link>
+            </div>
+        </Layout>
+    );
 };
 
 export default AuctionPage;
