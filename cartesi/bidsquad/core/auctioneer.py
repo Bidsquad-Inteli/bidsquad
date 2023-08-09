@@ -175,6 +175,16 @@ class Auctioneer:
 
                     if type(output) is Error:
                         return output
+                    
+                    outputs.append(output)
+                    
+                    output = self._wallet.ether_withdraw(
+                        rollup_address=rollup_address,
+                        account=rollup_address,
+                    )
+
+                    if type(output) is Error:
+                        return output
 
                     outputs.append(output)
 
