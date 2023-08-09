@@ -72,7 +72,7 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({
           description: data.description,
           start_date: toUnixTime(data.startDate),
           end_date: toUnixTime(data.endDate),
-          maxTokenizationCost: data.maxTokenizationCost
+          maxTokenizationCost: Number(data.maxTokenizationCost),
         },
       };
 

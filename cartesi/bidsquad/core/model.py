@@ -57,7 +57,7 @@ class Bid:
 
         self._auction_id = auction_id
         self._author = author
-        self._amount = amount
+        self._amount = amount * 10**18
         self._timestamp = timestamp
 
     @property
@@ -136,7 +136,7 @@ class Auction:
         self._description = description
         self._start_date = start_date
         self._end_date = end_date
-        self._maxTokenizationCost = maxTokenizationCost
+        self._maxTokenizationCost = maxTokenizationCost * 10**18
         self._bids: list[Bid] = []
 
     @property
@@ -182,13 +182,17 @@ class Auction:
         return (self.id < other.id)
 
     def bid(self, bid: Bid):
+        print("all bids", self._bids)
         if self.state == Auction.FINISHED:
             raise ValueError("The auction has already been finished")
 
         if bid.auction_id != self.id:
             raise ValueError(f"Auction id ({bid.auction_id}) does not match")
         
-        if self.winning_bid is None or bid < self.winning_bid:
+        if bid.amount > self._maxTokenizationCost:
+            raise ValueError(f"Bid amount ({bid.amount}) is not greater than the maxTokenizationCost ({self._maxTokenizationCost})")
+        
+        if self.winning_bid is None or bid.amount < self.winning_bid.amount:
             self._bids.append(bid)
         else:
             raise ValueError(

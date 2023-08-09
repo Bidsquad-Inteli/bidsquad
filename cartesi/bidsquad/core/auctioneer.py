@@ -22,7 +22,7 @@ from core.outputs import Error, Log, Notice, Output
 import numpy as np
 import cv2
 import base64
-import keras
+from tensorflow.keras.models import load_model
 
 
 def decode_image_from_base64(base64_string):
@@ -33,7 +33,7 @@ def decode_image_from_base64(base64_string):
 
 
 def get_carbon_credits_for_sattelite_image(base64Image: str):
-    model = keras.models.load_model('./model/model.keras')
+    model = load_model("./model/model.h5")
     img = decode_image_from_base64(base64Image)
 
     img = cv2.resize(img, (256, 256))
@@ -127,7 +127,7 @@ class Auctioneer:
             new_bid = Bid(auction_id, bidder, amount, timestamp)
             auction.bid(new_bid)
             bid_json = json.dumps(new_bid, cls=BidEncoder)
-            logger.info(f"Bid of '{amount}' placed for " f"{auction_id}")
+            logger.info(f"Bid of '{new_bid.amount}' placed for " f"{auction_id}")
             return Notice(f'{{"type": "auction_bid", "content": {bid_json}}}')
         except Exception as error:
             error_msg = f"Failed to bid. {error}"

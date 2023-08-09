@@ -9,6 +9,7 @@ import Jazzicon from "react-jazzicon";
 import { FaEthereum } from "react-icons/fa";
 import { useMetamask } from "@/contexts/metamask";
 import { DiferenceTime, getTimeDiference } from "@/utils/utils";
+import { ethers } from "ethers";
 
 export const AuctionCard = ({
   id,
@@ -67,7 +68,11 @@ export const AuctionCard = ({
     }
     if (creator == metaMask.account) setOwner(true);
     getLatestBidData(id).then((bid) => {
-      if (bid) setLatestBid(bid);
+      if (bid) {
+        if (typeof bid.amount === "number") bid.amount = bid.amount / 10 ** 18;
+        else bid.amount = Number(ethers.utils.formatEther(bid.amount));
+        setLatestBid(bid);
+      }
     });
   }, []);
 
@@ -131,7 +136,8 @@ export const AuctionCard = ({
                 Carbon credits: {carbonCredit}
               </label>
               <label className="text-2xl flex gap-1 items-center font-bold">
-                {latestBid ? latestBid.amount : "--"} <FaEthereum />
+                {latestBid ? latestBid.amount : "--"}{" "}
+                <FaEthereum />
               </label>
               <label className="text-sm font-bold text-gray-400">
                 Latest Bid

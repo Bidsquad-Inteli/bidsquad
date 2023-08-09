@@ -1,19 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image";
+import { useMetamask } from "@/contexts/metamask";
+import { BidsData, getBidsData } from "@/utils/getData";
+import { sendInput } from "@/utils/send_data";
+import { DiferenceTime, fromUnixTime, getTimeDiference } from "@/utils/utils";
+import { BigNumber, ethers } from "ethers";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { RiCloseFill } from "react-icons/ri";
 import BidList from "./listBids";
-import { DAPP_ADDRESS, sendInput } from "@/utils/send_data";
-import { useEffect, useState } from "react";
-import { BidsData, getBidsData } from "@/utils/getData";
-import dayjs from "dayjs";
-import { DiferenceTime, fromUnixTime, getTimeDiference } from "@/utils/utils";
-import { toast } from "react-hot-toast";
-import { useMetamask } from "@/contexts/metamask";
-import { set } from "react-hook-form";
-import { ethers } from "ethers";
 
 interface BidsArgs {
-  amount: number;
+  amount: number | BigNumber;
   auction_id: number;
 }
 interface Bids {
@@ -56,21 +53,23 @@ export const AuctionModal = ({
     // console.log(account);
     if (amount <= 0) return toast.error("Bid must be greater than 0");
     if (account == null) return toast.error("Please connect your wallet");
-    if (amount >= bids[0].amount)
-      return toast.error("Bid must be less than the winning bid");
+    if (bids[0]) {
+      if (amount >= bids[0].amount)
+        return toast.error("Bid must be less than the winning bid");
+    }
     if (account == auction.creator)
       return toast.error("You can't bid on your own auction");
-    
-    const convertedAmount = ethers.utils.parseEther(amount.toString());
 
     try {
       const payload: Bids = {
         method: "bid",
         args: {
-          amount: convertedAmount,
+          amount,
           auction_id: id,
         },
       };
+
+      console.log(payload);
 
       await sendInput(payload);
       toast.success("Bid sent successfully");
@@ -97,6 +96,13 @@ export const AuctionModal = ({
 
     getBidsData(auction.id).then((data) => {
       if (data) {
+        for (let bid of data) {
+          if (typeof bid.amount == "number") {
+            bid.amount = bid.amount / 10 ** 18;
+          } else {
+            bid.amount = Number(ethers.utils.formatEther(bid.amount));
+          }
+        }
         data.sort((a, b) => a.amount - b.amount);
         setBids(data);
       }
