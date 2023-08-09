@@ -2,11 +2,13 @@
 import Image from "next/image";
 import { RiCloseFill } from "react-icons/ri";
 import BidList from "./listBids";
-import { sendInput } from "@/utils/send_data";
+import { DAPP_ADDRESS, sendInput } from "@/utils/send_data";
 import { useEffect, useState } from "react";
 import { BidsData, getBidsData } from "@/utils/getData";
 import dayjs from "dayjs";
 import { fromUnixTime } from "@/utils/utils";
+import { toast } from "react-hot-toast";
+import { useMetamask } from "@/contexts/metamask";
 
 interface BidsArgs {
     amount: number;
@@ -36,17 +38,31 @@ interface AuctionModalProps {
 export const AuctionModal = ({ auction, modalOpen, closeModal }: AuctionModalProps) => {
     const [bidValue, setBidValue] = useState<Number>(0);
     const [bids, setBids] = useState<BidsData[]>([]);
+    const {account} = useMetamask()
 
     // Função para realizar uma oferta no leilão
     const sendBid = async (id, amount) => {
-        const payload: Bids = {
-            method: "bid",
-            args: {
-                amount: amount,
-                auction_id: id,
-            },
-        };
-        return await sendInput(payload);
+        console.log(account)
+        if (amount <= 0) return toast.error("Bid must be greater than 0");
+        if (account == null) return toast.error("Please connect your wallet")
+        if (account == auction.creator) return toast.error("You can't bid on your own auction")
+
+        try {
+            const payload: Bids = {
+                method: "bid",
+                args: {
+                    amount: amount,
+                    auction_id: id,
+                },
+            };
+
+            await sendInput(payload);
+            toast.success("Bid sent successfully");
+            const data = await getBidsData(auction.id);
+            if (data) setBids(data);
+        } catch (err) {
+            toast.error("Error sending bid");
+        }
     };
 
     useEffect(() => {

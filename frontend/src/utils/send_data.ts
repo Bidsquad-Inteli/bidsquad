@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 const INPUTBOX_ADDRESS = "0x5a723220579C0DCb8C9253E6b4c62e572E379945";
 const ETHERPORTAL_ADDRESS = "0xA89A3216F46F66486C9B794C1e28d3c44D59591e";
 
-const DAPP_ADDRESS = "0x142105FC8dA71191b3a13C738Ba0cF4BC33325e2";
+export const DAPP_ADDRESS = "0x142105FC8dA71191b3a13C738Ba0cF4BC33325e2";
 
 export async function depositEther(maxTokenizationCost) {
     // Start a connection
@@ -48,6 +48,6 @@ export async function sendInput(payload) {
         throw new Error(`InputAdded event not found in receipt of transaction ${receipt.transactionHash}`);
     }
     return {
-        status: "auction created with success!",
+        status: "Input added with success!",
     };
 }
