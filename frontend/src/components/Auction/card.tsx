@@ -106,27 +106,12 @@ export const AuctionCard = ({
 
     return (
         <>
-            <AuctionModal
-                modalOpen={isModalOpen}
-                auction={{
-                    id,
-                    title,
-                    description,
-                    carbonCredit,
-                    startDate,
-                    endDate,
-                    creator,
-                    state,
-                    satteliteImageUrl,
-                }}
-                closeModal={toggleModal}
-            />
             <div
                 onClick={toggleModal}
                 className="flex flex-col w-[400px] border-[0.25px] border-grey-100 p-4 rounded-xl overflow-hidden hover:scale-105 transition duration-150 bg-white ease-in-out hover:cursor-grabbing	"
             >
                 <div className="flex flex-col w-full">
-                    <div className="w-full relative h-80">
+                    <div className="w-full flex items-center justify-center relative h-auto">
                         {/* <img
                             src={satteliteImageUrl}
                             alt="Auction item image"
@@ -136,7 +121,7 @@ export const AuctionCard = ({
                             src={satteliteImageUrl}
                             alt="Auction item image"
                             width={400}
-                            height={250}
+                            height={400}
                         />
                         <div className="absolute bg-white rounded-xl flex items-center justify-center bottom-[10px] left-[10px] w-auto px-4 h-[40px]">
                             <label>🔥 Ends in: {timeToFinnish} days</label>
@@ -179,12 +164,11 @@ export const AuctionCard = ({
                             </label>
                         </div>
                         <div className="flex items-start justify-center mr-4">
-                            <Link
-                                href={`/auction/${id}`}
+                            <button
                                 className="bg-black hover:bg-primary transition text-white font-bold py-2 px-4 rounded"
                             >
                                 See more
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -26,8 +26,11 @@ TRANSFER_FUNCTION_SELECTOR = b'\xa9\x05\x9c\xbb'
 # corresponds to the first 4 bytes of the Keccak256-encoded result of 'safeTransferFrom(address,address,uint256)'
 SAFE_TRANSFER_FROM_SELECTOR = b'B\x84.\x0e'
 
-_accounts = dict[str: Balance]()
+# Function selector to be called during the execution of a voucher that transfers funds,
+# corresponds to the first 4 bytes of the Keccak256-encoded result of  withdrawEther(address _receiver, uint256 _value)'
+WITHDRAW_ETHER_SELECTOR = b'\x4b\x17\x5e\x4a'
 
+_accounts = dict[str: Balance]()
 
 def _balance_get(account) -> Balance:
     balance = _accounts.get(account)
@@ -38,13 +41,11 @@ def _balance_get(account) -> Balance:
 
     return balance
 
-
 def balance_get(account) -> Balance:
     """Retrieve the balance of all ERC-20 and ERC-721 tokens for `account`"""
 
     logger.info(f"Balance for '{account}' retrieved")
     return _balance_get(account)
-
 
 def erc20_deposit_process(payload:str):
     '''
@@ -81,7 +82,6 @@ def ether_deposit_process(payload:str):
         logger.debug(error_msg, exc_info=True)
         return Error(error_msg)
 
-
 def erc721_deposit_process(payload:str):
     '''
     Process the ABI-encoded input data sent by the ERC721Portal
@@ -106,7 +106,6 @@ def erc721_deposit_process(payload:str):
         logger.debug(error_msg, exc_info=True)
         return Error(error_msg)
     
-
 def _ether_deposit_parse(binary_payload: bytes):
     try:
         input_data = decode_packed(
@@ -121,7 +120,6 @@ def _ether_deposit_parse(binary_payload: bytes):
     except Exception as error:
         raise ValueError(
             "Payload does not conform to Ether transfer ABI") from error
-
 
 def _erc20_deposit_parse(binary_payload: bytes):
     '''
@@ -156,7 +154,6 @@ def _erc20_deposit_parse(binary_payload: bytes):
     except Exception as error:
         raise ValueError(
             "Payload does not conform to ERC-20 transfer ABI") from error
-
 
 def _erc721_deposit_parse(binary_payload: bytes):
     '''
@@ -201,6 +198,16 @@ def _ether_deposit(account, amount):
     }
     return Notice(json.dumps(notice_payload))
 
+def ether_withdraw(rollup_address, account):
+    balance = _balance_get(account)
+    balance._ether_decrease(balance._etherBalance)
+
+    transfer_payload = WITHDRAW_ETHER_SELECTOR + \
+            encode(['address', 'uint256'], [account, balance._etherBalance])
+
+    logger.info(f"'{balance._etherBalance}' ether withdrawn from '{account}'")
+    return Voucher(rollup_address, transfer_payload)
+
 def _erc20_deposit(account, erc20, amount):
     '''
     Deposit ERC-20 tokens in account.
@@ -227,6 +234,29 @@ def _erc20_deposit(account, erc20, amount):
     }
     return Notice(json.dumps(notice_payload))
 
+def ether_transfer(account, to, amount):
+    try:
+        balance = _balance_get(account)
+        balance_to = _balance_get(to)
+
+        balance._ether_decrease(amount)
+        balance_to._ether_increase(amount)
+
+        notice_payload = {
+            "type": "ethertransfer",
+            "content": {
+                "from": account,
+                "to": to,
+                "amount": amount
+            }
+        }
+        logger.info(f"'{amount}' ethers transferred from "
+                    f"'{account}' to '{to}'")
+        return Notice(json.dumps(notice_payload))
+    except Exception as error:
+        error_msg = f"{error}"
+        logger.debug(error_msg, exc_info=True)
+        return Error(error_msg)
 
 def _erc721_deposit(account, erc721, token_id):
     '''
@@ -254,7 +284,6 @@ def _erc721_deposit(account, erc721, token_id):
     }
     return Notice(json.dumps(notice_payload))
 
-
 def erc20_withdraw(account, erc20, amount):
     '''
     Extract ERC-20 tokens from account.
@@ -276,7 +305,6 @@ def erc20_withdraw(account, erc20, amount):
 
     logger.info(f"'{amount} {erc20}' tokens withdrawn from '{account}'")
     return Voucher(erc20, transfer_payload)
-
 
 def erc20_transfer(account, to, erc20, amount):
     '''
@@ -315,7 +343,6 @@ def erc20_transfer(account, to, erc20, amount):
         logger.debug(error_msg, exc_info=True)
         return Error(error_msg)
 
-
 def erc721_withdraw(rollup_address, sender, erc721, token_id):
     try:
         balance = _balance_get(sender)
@@ -332,7 +359,6 @@ def erc721_withdraw(rollup_address, sender, erc721, token_id):
     logger.info(f"Token 'ERC-721: {erc721}, id: {token_id}' withdrawn "
                 f"from '{sender}'")
     return Voucher(erc721, payload)
-
 
 def erc721_transfer(account, to, erc721, token_id):
     '''

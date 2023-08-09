@@ -156,10 +156,9 @@ class Auctioneer:
                 notice = Notice(notice_payload)
                 outputs.append(notice)
             else:
-                output = self._wallet.erc20_transfer(
+                output = self._wallet.ether_transfer(
                     account=winning_bid.author,
                     to=auction.creator,
-                    erc20=auction.erc20,
                     amount=winning_bid.amount,
                 )
 
@@ -167,23 +166,21 @@ class Auctioneer:
                     return output
 
                 outputs.append(output)
-                output = self._wallet.erc721_transfer(
-                    account=auction.creator,
-                    to=winning_bid.author,
-                    erc721=auction.item.erc721,
-                    token_id=auction.item.token_id,
-                )
 
-                if type(output) is Error:
-                    return output
-
-                outputs.append(output)
                 if withdraw and msg_sender == auction.winning_bid.author:
-                    output = self._wallet.erc721_withdraw(
+                    output = self._wallet.ether_withdraw(
                         rollup_address=rollup_address,
-                        sender=msg_sender,
-                        erc721=auction.item.erc721,
-                        token_id=auction.item.token_id,
+                        account=msg_sender,
+                    )
+
+                    if type(output) is Error:
+                        return output
+                    
+                    outputs.append(output)
+                    
+                    output = self._wallet.ether_withdraw(
+                        rollup_address=rollup_address,
+                        account=rollup_address,
                     )
 
                     if type(output) is Error:
