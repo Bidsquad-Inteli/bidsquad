@@ -105,7 +105,7 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 **Details:**
 
 <div style="display: flex;">
-<img src="./docs/images/joao.jpeg" alt="Joao Silva" width="256" height="256" />
+<img src="docs/images/joao.jpeg" alt="Joao Silva" width="256" height="256" />
 
 -   **Name:** João Silva
 -   **Age:** 45 years
@@ -124,7 +124,7 @@ João owns a farm where he practices agriculture and livestock farming. He has a
 **Details:**
 
 <div style="display: flex;">
-<img src="./docs/images/maria.jpeg" alt="Maria Oliveira" width="256" height="256" />
+<img src="docs/images/maria.jpeg" alt="Maria Oliveira" width="256" height="256" />
 
 -   **Name:** Maria Oliveira
 -   **Age:** 35 years
@@ -142,7 +142,7 @@ Maria is an experienced professional in the environmental certification field, f
 ## Architecture
 
 <center>
-  <img src='./docs/images/architecture.jpeg' alt='Architecture' style='width: 80%;' />
+  <img src='docs/images/architecture.jpeg' alt='Architecture' style='width: 80%;' />
 </center>
 
 ### Architecture Overview
