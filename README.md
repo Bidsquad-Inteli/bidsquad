@@ -85,7 +85,7 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 ### Persona 1: Landowner - João
 
 <div style="display: flex;">
-<img src="./docs/images/joao.jpeg" alt="Joao Silva" width="260" height="260" style='border-radius: 50%;' />
+<img src="docs/images/joao.jpeg" alt="Joao Silva" width="256" height="256" />
 
 -   **Name:** João Silva
 -   **Age:** 45 years
@@ -97,7 +97,7 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 ### Persona 2: Certification Representative - Maria
 
 <div style="display: flex;">
-<img src="./docs/images/maria.jpeg" alt="Maria" width="260" height="260" style='border-radius: 50%;' />
+<img src="/docs/images/maria.jpeg" alt="Maria" width="260" height="260" style='border-radius: 50%;' />
 
 -   **Name:** Maria Oliveira
 -   **Age:** 35 years
@@ -111,7 +111,7 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 ## Architecture
 
 <center>
-  <img src='./docs/images/architecture.jpeg' alt='Architecture' style='width: 80%;' />
+  <img src='/docs/images/architecture.jpeg' alt='Architecture' style='width: 80%;' />
 </center>
 
 ### Architecture Overview

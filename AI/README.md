@@ -11,7 +11,7 @@ The dataset consists of 188 satellite images, manually collected and labeled, ac
 
 ## Model Architecture
 
-The AI model is built using a 10 layer convolutional neural network (CNN) built from the ground up, designed to process the satellite images and output a numeric value representing the estimated carbon credits.
+The AI model is built using a 12 layer convolutional neural network (CNN) built from the ground up, designed to process the satellite images and output a numeric value representing the estimated carbon credits.
 
 # Examples
 ![image](https://raw.githubusercontent.com/lyorrei/bidsquad/master/AI/imgs/121.png)
