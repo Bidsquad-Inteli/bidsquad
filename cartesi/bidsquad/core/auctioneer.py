@@ -17,7 +17,7 @@ from operator import attrgetter
 import core.wallet as Wallet
 from core.encoders import AuctionEncoder, BidEncoder
 from core.log import logger
-from core.model import Auction, Bid, Item
+from core.model import Auction, Bid
 from core.outputs import Error, Log, Notice, Output
 import numpy as np
 
@@ -58,7 +58,6 @@ def get_carbon_credits_for_sattelite_image(base64Image: str):
     # Obtendo a predição
     output_index = interpreter.get_output_details()[0]['index']
     results = round(float(interpreter.get_tensor(output_index)[0][0]), 1)
-
     return results
 
 
@@ -140,9 +139,7 @@ class Auctioneer:
                     "Bid arrived after auction end date "
                     f"'{auction.end_date.isoformat()}'"
                 )
-            # if not self._has_enough_funds(auction.erc20, bidder, amount):
-            #     raise ValueError(f"Account {bidder} doesn't have enough funds")
-
+            
             new_bid = Bid(auction_id, bidder, amount, timestamp)
             auction.bid(new_bid)
             bid_json = json.dumps(new_bid, cls=BidEncoder)
@@ -254,25 +251,3 @@ class Auctioneer:
             error_msg = f"Failed to list auctions. {error}"
             logger.debug(error_msg, exc_info=True)
             return Error(error_msg)
-
-    def _seller_owns_item(self, seller, item):
-        try:
-            balance = self._wallet.balance_get(seller)
-            erc721_balance = balance.erc721_get(item.erc721)
-            if item.token_id in erc721_balance:
-                return True
-            return False
-        except Exception:
-            return False
-
-    def _is_item_auctionable(self, item):
-        for auction in self._auctions.values():
-            if auction.state != auction.FINISHED and auction.item == item:
-                return False
-        return True
-
-    def _has_enough_funds(self, erc20, bidder, amount):
-        balance = self._wallet.balance_get(bidder)
-        erc20_balance = balance.erc20_get(erc20)
-
-        return amount <= erc20_balance

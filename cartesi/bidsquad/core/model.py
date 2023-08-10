@@ -13,35 +13,6 @@
 import itertools
 from datetime import datetime
 
-
-class Item:
-    """
-    Auction item
-
-    Encapsulates an NFT (ERC-721 contract and ID), which may be auctioned
-    """
-
-    def __init__(self, erc721: str, token_id: int):
-        self._erc721 = erc721
-        self._token_id = token_id
-
-    @property
-    def erc721(self):
-        return self._erc721
-
-    @property
-    def token_id(self):
-        return self._token_id
-
-    def __eq__(self, other):
-        return (self.erc721 == other.erc721
-                and self.token_id == other.token_id)
-
-    def __ne__(self, other):
-        return (self.erc721 != other.erc721
-                or self.token_id != other.token_id)
-
-
 class Bid:
     """
     Auction bid
@@ -57,7 +28,7 @@ class Bid:
 
         self._auction_id = auction_id
         self._author = author
-        self._amount = amount * 10**18
+        self._amount = amount * 10**18 # Convert to wei
         self._timestamp = timestamp
 
     @property
@@ -105,10 +76,6 @@ class Bid:
 class Auction:
     """
     Auction
-
-    Identifies an auction of an `Item` belnging to certain user (`creator`)
-    with associated `start_date` and `end_date`.
-
     It can receive bids as long as the `end_date` has not been reached.
 
     It has a minimum bid amount set, as well as a `title` and `description`,
@@ -182,7 +149,7 @@ class Auction:
         return (self.id < other.id)
 
     def bid(self, bid: Bid):
-        print("all bids", self._bids)
+        
         if self.state == Auction.FINISHED:
             raise ValueError("The auction has already been finished")
 

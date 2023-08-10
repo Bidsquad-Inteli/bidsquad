@@ -18,3 +18,4 @@ cartesi/deployments/localhost/WorkerAuthManagerImpl.json
 cartesi/deployments/localhost/WorkerManagerAuthManagerImpl.json
 cartesi/deployments/localhost/WorkerManagerImpl.json
 frontend/env.local
+cartesi/env.polygon_mumbai

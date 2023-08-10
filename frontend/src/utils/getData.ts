@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { hex2str } from "./utils";
 export interface BidsData {
   amount: number;
@@ -27,10 +28,21 @@ export const getBidsData = async (
     );
     const data = await bids.json();
 
-    let bidsData = [];
+    let bidsData: BidsData[] | null = [];
     for (let i in data.reports) {
       let payload = data.reports[i].payload;
       bidsData = JSON.parse(`${hex2str(payload)}`);
+    }
+
+    if (bidsData) {
+      for (let bid of bidsData) {
+        if (typeof bid.amount == "number") {
+          bid.amount = bid.amount / 10 ** 18;
+        } else {
+          bid.amount = Number(ethers.utils.formatEther(bid.amount));
+        }
+      }
+      bidsData.sort((a, b) => a.amount - b.amount);
     }
 
     return bidsData as BidsData[];
@@ -96,7 +108,7 @@ export const getAuctions = async (): Promise<Auction[] | null> => {
 
     return auctions;
   } catch (err) {
-    return ([
+    return [
       {
         id: "1",
         state: 1,
@@ -105,9 +117,9 @@ export const getAuctions = async (): Promise<Auction[] | null> => {
         satteliteImageUrl: "https://imgur.com/CqoAKuh.png", //https://imgur.com/R1DlCa4.png
         title: "Auction Teste",
         description: "Auction Teste Description",
-        start_date: "1699708800",
-        end_date: "1699910400",
+        start_date: 1699708800,
+        end_date: 1699574400,
       },
-    ]);
+    ];
   }
 };
