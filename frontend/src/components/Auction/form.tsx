@@ -60,8 +60,11 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const { base64Data, file } = await fetchImageAndConvertToBase64(mapUrl);
+      const { base64Data, file } = await fetchImageAndConvertToBase64(mapUrl.replace("400x400", "256x256").replace("weight:5", "weight:0"));
       const ipfsFileUrl = await sendToIPFS(file);
+
+      console.log(ipfsFileUrl)
+      console.log(base64Data)
 
       const payload = {
         method: "create",
@@ -72,7 +75,7 @@ export const AuctionForm: React.FC<AuctionFormProps> = ({
           description: data.description,
           start_date: toUnixTime(data.startDate),
           end_date: toUnixTime(data.endDate),
-          maxTokenizationCost: data.maxTokenizationCost
+          maxTokenizationCost: Number(data.maxTokenizationCost),
         },
       };
 

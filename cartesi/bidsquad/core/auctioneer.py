@@ -22,6 +22,7 @@ from core.outputs import Error, Log, Notice, Output
 import numpy as np
 
 import base64
+
 from tflite_runtime.interpreter import Interpreter
 
 import sys
@@ -36,6 +37,7 @@ def decode_image_from_base64(base64_string):
 
 
 def get_carbon_credits_for_sattelite_image(base64Image: str):
+
     # Carregando o modelo TFLite
     interpreter = Interpreter(model_path='./model/model.tflite')
     interpreter.allocate_tensors()
@@ -144,7 +146,7 @@ class Auctioneer:
             new_bid = Bid(auction_id, bidder, amount, timestamp)
             auction.bid(new_bid)
             bid_json = json.dumps(new_bid, cls=BidEncoder)
-            logger.info(f"Bid of '{amount}' placed for " f"{auction_id}")
+            logger.info(f"Bid of '{new_bid.amount}' placed for " f"{auction_id}")
             return Notice(f'{{"type": "auction_bid", "content": {bid_json}}}')
         except Exception as error:
             error_msg = f"Failed to bid. {error}"
