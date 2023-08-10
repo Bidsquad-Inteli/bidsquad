@@ -94,7 +94,7 @@ export const CoordinateForm: React.FC<CoordinateFormProps> = ({
                                 Image
                             </label>
                             <img
-                                className="border-4 border-blue-500 rounded-2xl w-full"
+                                className="border-4 border-blue-500 rounded-2xl w-[400px] h-[400px]"
                                 alt="Sattelite Image"
                                 src={map}
                             />
