@@ -229,6 +229,15 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 
 ---
 
+## Env
+
+### Frontend
+```bash
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="AIzaSyCuBWF2VQtHofQQMeiiNuU_iCktL-sDdB8"
+NEXT_PUBLIC_PINATA_KEY=9203fc17662d5d83dce3
+NEXT_PUBLIC_PINATA_SECRET=dc99bede59f4b65fac0665e6e440139a1dbac7ce879bd3c2bca5aec7262b8637
+```
+
 ## Installation
 
 ### Frontend
