@@ -234,10 +234,10 @@ export const AuctionModal = ({
 
           <div className="h-[2px] my-8 rounded bg-gray-500 md:mx-12"></div>
 
-          {owner ? (
+          {(owner || auctionFinished) ? (
             <div className="w-full flex items-center justify-center">
               <span className="self-start font-medium">
-                - You are the owner of this -{" "}
+                {owner ? "- You are the owner of this -": "- Time is over to make a bid -"}
               </span>
             </div>
           ) : (

@@ -106,7 +106,7 @@ export const getAuctions = async (): Promise<Auction[] | null> => {
         title: "Auction Teste",
         description: "Auction Teste Description",
         start_date: "1699708800",
-        end_date: "1699910400",
+        end_date: "1699574400",
       },
     ]);
   }
