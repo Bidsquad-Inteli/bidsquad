@@ -104,20 +104,12 @@ export const AuctionModal = ({ auction, modalOpen, closeModal }: AuctionModalPro
           setOwner(false)
         }
 
-        getBidsData(auction.id).then((data) => {
-            if (data) {
-                for (let bid of data) {
-                    if (typeof bid.amount == "number") {
-                        bid.amount = bid.amount / 10 ** 18;
-                    } else {
-                        bid.amount = Number(ethers.utils.formatEther(bid.amount));
-                    }
-                }
-                data.sort((a, b) => a.amount - b.amount);
-                setBids(data);
-            }
-        });
-    }, [modalOpen]);
+    getBidsData(auction.id).then((data) => {
+      if (data) {
+        setBids(data);
+      }
+    });
+  }, [modalOpen]);
 
     return (
         <div
