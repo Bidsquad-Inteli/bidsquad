@@ -239,8 +239,8 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 
 ```bash
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="API_KEY"
-NEXT_PUBLIC_PINATA_KEY=PINATA_KEY
-NEXT_PUBLIC_PINATA_SECRET=PINATA_SECRET
+NEXT_PUBLIC_PINATA_KEY="PINATA_KEY"
+NEXT_PUBLIC_PINATA_SECRET="PINATA_SECRET"
 ```
 
 2. Enter the `frontend` folder:
