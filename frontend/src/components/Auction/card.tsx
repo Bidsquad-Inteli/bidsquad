@@ -56,6 +56,11 @@ export const AuctionCard = ({
   //   setTimeToFinnish(diffDaysRounded);
   // }, [end_date]);
 
+  //States
+  // 0 = Created
+  // 1 = Started
+  // 2 = Finished
+
   useEffect(() => {
     const timeDiference: DiferenceTime | null = getTimeDiference(
       start_date,
@@ -105,7 +110,7 @@ export const AuctionCard = ({
               <label>
                 {timeToFinnish
                   ? `🔥 Ends in: ${timeToFinnish.value} ${timeToFinnish.time}`
-                  : `Auction finished`}
+                  : `The time to bid is over`}
               </label>
             </div>
           </div>
