@@ -261,7 +261,7 @@ yarn install
 yarn dev
 ```
 
-### Cartesi (Host mode)
+### Cartesi 
 
 1. Enter the `cartesi/bidsquad` folder:
 
@@ -280,7 +280,9 @@ pip install -r requirements.txt
 3. Start the Cartesi Machine:
 
 ```bash
-docker compose -f ../docker-compose.yml -f docker-compose.override.yml -f ../docker-compose-host.yml up
+docker buildx bake --load
+
+docker compose -f ../docker-compose.yml -f docker-compose.override.yml up
 ```
 
 4. Run the bidsquad dapp
