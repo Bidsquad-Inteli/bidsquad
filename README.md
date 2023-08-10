@@ -6,7 +6,7 @@
 
 BidSquad is a groundbreaking carbon credit auction platform that leverages the power of blockchain technology and artificial intelligence to conduct reverse auctions for carbon credit certification. Through its innovative integration with Cartesi, BidSquad takes a significant step forward in revolutionizing environmental conservation. The platform is designed to connect individuals who own and preserve green areas within their land with certifiers specialized in carbon credit assessments. Utilizing a reverse auction mechanism, BidSquad empowers landowners to efficiently find certifiers offering competitive prices for certifying the carbon credit emissions of their preserved areas. By seamlessly incorporating Cartesi's advanced technology, BidSquad enhances the efficiency and transparency of the auction process, setting a remarkable example of how blockchain and AI can drive positive change in addressing environmental challenges.
 
-## [Project Demo](https://drive.google.com/file/d/1wTX4MliYr8TXV_9Q9Ev424RxHoHH6Wy_/view?usp=sharing)
+## [Project Demo](https://www.youtube.com/watch?v=NGggduMBgos)
 
 ---
 
