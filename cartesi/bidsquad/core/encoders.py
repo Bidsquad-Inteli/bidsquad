@@ -14,7 +14,7 @@ from datetime import datetime
 from json import JSONEncoder
 
 from core.balance import Balance
-from core.model import Auction, Bid, Item
+from core.model import Auction, Bid
 
 
 class PrivatePropertyEncoder(JSONEncoder):
@@ -35,8 +35,6 @@ class AuctionEncoder(PrivatePropertyEncoder):
             return props
         elif isinstance(o, Bid):
             return BidEncoder().default(o)
-        elif isinstance(o, Item):
-            return ItemEncoder().default(o)
         elif isinstance(o, datetime):
             return DatetimeEncoder().default(o)
 
@@ -51,16 +49,6 @@ class BidEncoder(PrivatePropertyEncoder):
             return props
         elif isinstance(o, datetime):
             return DatetimeEncoder().default(o)
-
-        return JSONEncoder.encode(self, o)
-
-
-class ItemEncoder(PrivatePropertyEncoder):
-    def default(self, o):
-        if isinstance(o, Item):
-            props = o.__dict__.copy()
-            props = self._normalize_keys(props)
-            return props
 
         return JSONEncoder.encode(self, o)
 
