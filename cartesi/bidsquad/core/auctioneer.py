@@ -23,7 +23,7 @@ import numpy as np
 
 import base64
 
-from tflite_runtime.interpreter import Interpreter
+from tensorflow.keras.models import load_model
 
 import sys
 sys.path.append('/usr/lib/python3/dist-packages')
@@ -39,8 +39,7 @@ def decode_image_from_base64(base64_string):
 def get_carbon_credits_for_sattelite_image(base64Image: str):
 
     # Carregando o modelo TFLite
-    interpreter = Interpreter(model_path='./model/model.tflite')
-    interpreter.allocate_tensors()
+    model = load_model("./model/model.h5")
 
     # Decodificando e preprocessando a imagem
     img = decode_image_from_base64(base64Image)
@@ -48,17 +47,7 @@ def get_carbon_credits_for_sattelite_image(base64Image: str):
     img = np.array(img, dtype=np.float32) / 255 
     img = np.expand_dims(img, axis=0)
 
-    # Definindo o tensor de entrada
-    input_index = interpreter.get_input_details()[0]['index']
-    interpreter.set_tensor(input_index, img)
-
-    # Invocando o interpretador
-    interpreter.invoke()
-
-    # Obtendo a predição
-    output_index = interpreter.get_output_details()[0]['index']
-    results = round(float(interpreter.get_tensor(output_index)[0][0]), 1)
-
+    results = round(float(model.predict(img)[0][0]), 1)
     return results
 
 
