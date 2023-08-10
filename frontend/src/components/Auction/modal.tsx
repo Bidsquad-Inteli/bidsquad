@@ -48,6 +48,18 @@ export const AuctionModal = ({
 
   const metaMask = useMetamask();
 
+  switch (auction.state) {
+    case 0:
+      auction.state = "Created";
+      break;
+    case 1:
+      auction.state = "Open";
+      break;
+    case 2:
+      auction.state = "Closed";
+      break;
+  }
+
   // Função para realizar uma oferta no leilão
   const sendBid = async (id, amount) => {
     // console.log(account);
@@ -197,6 +209,15 @@ export const AuctionModal = ({
                     {fromUnixTime(auction.end_date)}
                   </label>
                 </div>
+
+                <div className="mb-2 flex flex-col">
+                  <label className="font-medium text-sm text-gray-400">
+                    Status
+                  </label>
+                  <label className="font-medium text-2xl">
+                    {auction.state}
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -213,10 +234,10 @@ export const AuctionModal = ({
 
           <div className="h-[2px] my-8 rounded bg-gray-500 md:mx-12"></div>
 
-          {owner ? (
+          {(owner || auctionFinished) ? (
             <div className="w-full flex items-center justify-center">
               <span className="self-start font-medium">
-                - You are the owner of this -{" "}
+                {owner ? "- You are the owner of this -": "- Time is over to make a bid -"}
               </span>
             </div>
           ) : (

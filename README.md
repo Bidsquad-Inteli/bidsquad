@@ -1,50 +1,54 @@
 # BidSquad - Carbon Credit Auction Platform
 
-BidSquad is a groundbreaking carbon credit auction platform that harnesses the power of blockchain technology and artificial intelligence to conduct reverse auctions for carbon credit certification. The platform is designed to connect individuals who own and preserve green areas within their land with certifiers specialized in carbon credit assessments. Utilizing a reverse auction mechanism, BidSquad empowers landowners to efficiently find certifiers offering competitive prices for certifying the carbon credit emissions of their preserved areas.
+<div style="display: flex; justify-content: center">
+  <img src="/docs/images/logo.png" style="width: 25%;">
+</div>
 
-### Reverse Auction Mechanism
-
-BidSquad introduces an innovative reverse auction model tailored to the needs of landowners seeking carbon credit certification. The process unfolds as follows:
-
-1. **Auction Initiation:** Landowners initiate the process by creating an auction for their preserved area. During auction setup, the landowner establishes a maximum budget they are willing to allocate for carbon credit certification.
-
-2. **Certifier Bidding:** Certifiers, experts in carbon credit assessments, actively participate in the auction by submitting reverse bids. They propose the price they would require for certifying the carbon credit emissions associated with the landowner's preserved area.
-
-3. **Winning Bidder Determination:** The certifier presenting the lowest reverse bid emerges as the winner of the reverse auction. This bid represents the price the certifier is willing to accept for their professional certification services.
-
-4. **Payment Process:** Following the conclusion of the auction, the payment process is initiated. The successful certifier receives the bid amount from the initial deposit made by the landowner. Any remaining funds are promptly refunded to the landowner. For instance, if the landowner deposited 50 ETH and the winning bid is 40 ETH, the certifier receives 40 ETH, while the remaining 10 ETH are returned to the landowner.
-
-### AI and Image Recognition
-
-BidSquad integrates cutting-edge technologies to optimize the auction process:
-
--   **Image Recognition:** Landowners input the geographic coordinates of their preserved areas. BidSquad employs AI-powered image recognition to analyze satellite images, determining the extent of the green area. This analysis plays a pivotal role in calculating the associated carbon credit tokens.
-
-### Transparent and Trustworthy Transactions
-
-Blockchain technology forms the bedrock of BidSquad, ensuring transactions are transparent, traceable, and secure throughout the auction journey. Every transaction, bid, and offer is meticulously recorded on the blockchain, establishing a robust audit trail of activities and cultivating trust among all participants.
-
-### Pioneering Environmental Conservation
-
-BidSquad's pioneering approach revolutionizes the carbon credit certification process. By offering reverse auctions, integrating blockchain, and leveraging AI capabilities, the platform empowers landowners to actively engage in carbon credit trading. This empowerment drives positive environmental change and contributes to a more sustainable future.
-
-BidSquad's mission is not only to enable efficient carbon credit certification but also to empower landowners in their pursuit of contributing to environmental preservation. Through reverse auctions, BidSquad revolutionizes how carbon credit emissions are certified, building a bridge between landowners and certifiers, and fostering a greener, more sustainable world.
+BidSquad is a groundbreaking carbon credit auction platform that leverages the power of blockchain technology and artificial intelligence to conduct reverse auctions for carbon credit certification. Through its innovative integration with Cartesi, BidSquad takes a significant step forward in revolutionizing environmental conservation. The platform is designed to connect individuals who own and preserve green areas within their land with certifiers specialized in carbon credit assessments. Utilizing a reverse auction mechanism, BidSquad empowers landowners to efficiently find certifiers offering competitive prices for certifying the carbon credit emissions of their preserved areas. By seamlessly incorporating Cartesi's advanced technology, BidSquad enhances the efficiency and transparency of the auction process, setting a remarkable example of how blockchain and AI can drive positive change in addressing environmental challenges.
 
 ---
 
-## Scenario
+## Scenario: Pioneering Carbon Credit Auctions
 
-In the global effort to combat climate change, carbon credits have emerged as a crucial mechanism to incentivize individuals and organizations to reduce their carbon emissions. BidSquad, a pioneering carbon credit auction platform, stands at the forefront of this movement, utilizing cutting-edge blockchain technology and artificial intelligence to facilitate reverse auctions for carbon credits. Let's delve into the key components of this innovative scenario:
+Amidst the call for environmental preservation and urgent climate action, BidSquad emerges as a trailblazing carbon credit auction platform with a clear-cut mission. By harnessing the power of blockchain technology and artificial intelligence, BidSquad orchestrates reverse auctions for carbon credit certification. Delve into the essential aspects of this innovative scenario:
 
-1. **Carbon Credit Auctions**: BidSquad introduces a novel approach to carbon credit transactions through reverse auctions. In this setup, sellers of carbon credits, which can be individuals, businesses, or other entities, submit offers for the price at which they are willing to sell their carbon credits. Potential buyers, such as companies aiming to offset their emissions, then compete by submitting bids for the amount of credits they wish to purchase and the price they are willing to pay.
-2. **Blockchain Technology**: BidSquad leverages the transparency and security of blockchain to create a trusted and tamper-proof platform. Every transaction, bid, and offer is recorded on the blockchain, ensuring a transparent and auditable record of carbon credit trading activities. This helps build trust among participants and enhances the integrity of the carbon credit market.
-3. **Artificial Intelligence**: The platform employs advanced AI algorithms to optimize the auction process. AI analyzes historical data, market trends, and user behavior to provide insights that guide buyers and sellers in making informed decisions. This streamlines the auction process and enhances the efficiency of matching supply with demand.
-4. **Environmental Impact**: BidSquad's primary goal is to contribute significantly to environmental preservation by facilitating the trading of carbon credits. Carbon credits represent measurable reductions in greenhouse gas emissions, and by enabling their purchase and sale, BidSquad supports efforts to combat climate change and encourages a more sustainable way of conducting business.
-5. **Marketplace for Positive Change**: BidSquad creates a marketplace where participants can actively engage in environmental conservation. Sellers can monetize their carbon reduction efforts, while buyers can fulfill their emission reduction targets by purchasing credits from a diverse range of sources. This synergy fosters a community of sustainability-conscious individuals and organizations.
-6. **Global Reach**: Climate change is a global issue, and BidSquad's platform provides an accessible and inclusive way for participants from around the world to participate in carbon credit trading. This fosters a broader impact by involving stakeholders from different regions and industries.
-7. **Challenges and Growth**: While BidSquad's approach to carbon credit auctions is innovative, challenges such as market education, regulatory compliance, and scalability may arise. The platform's success hinges on effectively addressing these challenges and continuously refining its technology and processes.
+### Empowering Environmental Stewards
 
-In the dynamic landscape of environmental preservation and climate action, BidSquad emerges as a transformative platform that harnesses blockchain and AI technologies to foster a thriving marketplace for carbon credits. By providing a robust and transparent system for carbon credit auctions, BidSquad empowers individuals and organizations to actively contribute to a more sustainable future.
+Central to BidSquad's vision is the empowerment of individuals and entities who champion the preservation of green areas within their land. These dedicated environmental stewards play a pivotal role in safeguarding natural spaces, contributing significantly to the reduction of carbon emissions.
+
+### Reverse Auctions for Certification
+
+BidSquad introduces a paradigm shift to the carbon credit landscape with its reverse auction mechanism. Landowners take the lead by initiating auctions to connect with specialized certifiers proficient in carbon credit assessments. Certifiers engage in competitive bidding, offering their expertise at varying rates. This dynamic interplay fosters an environment where both parties stand to gain.
+
+### Seamless Landowner-Certifier Collaboration
+
+BidSquad acts as the seamless conduit that bridges the gap between landowners and certifiers. This innovative platform streamlines the process, enabling landowners to effortlessly explore and engage with certifiers who extend competitive pricing for certifying the carbon credit emissions tied to their preserved areas.
+
+### Efficiency and Transparency Reinvented
+
+A defining hallmark of BidSquad's approach is the reverse auction mechanism that instills fairness and transparency. Landowners establish a predefined budget for carbon credit certification, while certifiers actively participate by submitting reverse bids. This innovation not only optimizes cost-efficiency but also fosters a spirit of healthy competition among certifiers.
+
+### Igniting Positive Environmental Change
+
+BidSquad's streamlined certification process is a game-changer in environmental preservation. The platform's accessibility opens doors for a wider array of landowners to partake in carbon credit trading, cultivating collective efforts to combat climate change on a global scale.
+
+### Leveraging AI-Powered Image Recognition
+
+Incorporating cutting-edge AI-powered image recognition is another facet of BidSquad's prowess. Landowners input geographic coordinates of their preserved areas, setting the stage for the platform to analyze satellite images accurately. This analytical process is pivotal in precisely calculating the carbon credit tokens associated with the designated green areas.
+
+### Ensuring Trust through Blockchain
+
+BidSquad's foundation is rooted in the reliability of blockchain technology, ensuring security, transparency, and immutability across transactions. The entire spectrum of the auction process, spanning initial bids to final payments, is diligently recorded on the blockchain, fostering a sense of trust and integrity among all participants.
+
+### Global Reach, Collective Impact
+
+As a globally accessible platform, BidSquad's reach transcends geographical boundaries. This inclusivity amplifies its impact, involving stakeholders from diverse industries and backgrounds in the collective endeavor of carbon credit trading.
+
+### Overcoming and Innovating
+
+While BidSquad embodies innovation, challenges such as market education, regulatory compliance, and scalability are anticipated. The platform's triumph rests on its ability to effectively address these challenges while continuously refining its technology and processes to redefine the carbon credit ecosystem.
+
+In a world driven by the urgency of environmental preservation and the imperative to combat climate change, BidSquad stands as a transformative force. By ingeniously merging blockchain and AI technologies, BidSquad pioneers a vibrant marketplace for carbon credits. With its robust and transparent carbon credit auction system, BidSquad empowers individuals and organizations to be active contributors to a more sustainable future.
 
 ---
 
@@ -80,7 +84,7 @@ For individuals and entities engaged in preserving green areas, **BidSquad** off
 
 ### Area Definition and Image Recognition
 
-A key innovation of **BidSquad** is its integration with image recognition and geolocation technology. Farmers and advocates of green areas can input the geographic coordinates of their preserved areas into the platform. Utilizing the Google Maps API, the system automatically retrieves a satellite image of the region, converting it into base64 format, which is then forwarded to Cartesi's infrastructure through the input contract. Internally, the platform employs artificial intelligence for image recognition, analyzing the satellite image to determine the extent of the green area. This analysis is crucial for calculating the number of carbon credit tokens associated with the area.
+A key innovation of **BidSquad** is its integration with image recognition and geolocation technology. Farmers and advocates of green areas can input the geographic coordinates of their preserved areas into the platform. Utilizing the Google Maps API, the system automatically retrieves a satellite image of the region, converting it into base64 format, which is then forwarded to Cartesi's infrastructure through the input contract. Internally, the platform employs artificial intelligence for image recognition, analyzing the satellite image to determine the extent of the green area. This analysis is crucial for calculating the number of carbon credit tokens that might be generated for that area.
 
 ### Payment Process
 
@@ -96,13 +100,7 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 
 ## Personas
 
-<div style='display: flex; justify-content: space-between'>
-
-<div style='width: 48%;'>
-
 ### Persona 1: Landowner - João
-
-**Details:**
 
 <div style="display: flex;">
 <img src="docs/images/joao.jpeg" alt="Joao Silva" width="256" height="256" />
@@ -111,39 +109,28 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 -   **Age:** 45 years
 -   **Profession:** Farmer and landowner
 -   **Location:** Goiás, Brazil
-<br/>
+-   João owns a farm where he practices agriculture and livestock farming. He has always had an interest in cryptocurrencies and blockchain technology, which sparked his curiosity about the potential applications in the carbon credit industry. Despite his interest in innovative technologies, João faces challenges in navigating the complex world of carbon credit certification. He is concerned about the transparency and credibility of carbon credit projects, as well as the documentation and verification processes involved. João is looking for a reliable and streamlined solution that can simplify his engagement with carbon credits and help him contribute to environmental preservation more effectively.
 </div>
-João owns a farm where he practices agriculture and livestock farming. He has always had an interest in cryptocurrencies and blockchain technology, which sparked his curiosity about the potential applications in the carbon credit industry. Despite his interest in innovative technologies, João faces challenges in navigating the complex world of carbon credit certification. He is concerned about the transparency and credibility of carbon credit projects, as well as the documentation and verification processes involved. João is looking for a reliable and streamlined solution that can simplify his engagement with carbon credits and help him contribute to environmental preservation more effectively.
-
-</div>
-
-<div style='width: 48%;'>
 
 ### Persona 2: Certification Representative - Maria
 
-**Details:**
-
 <div style="display: flex;">
-<img src="docs/images/maria.jpeg" alt="Maria Oliveira" width="256" height="256" />
+<img src="/docs/images/maria.jpeg" alt="Maria" width="260" height="260" style='border-radius: 50%;' />
 
 -   **Name:** Maria Oliveira
 -   **Age:** 35 years
 -   **Profession:** Carbon Certification Manager at Gold Standard
 -   **Location:** São Paulo, Brazil
-<br/>
-</div>
-Maria is an experienced professional in the environmental certification field, focusing on carbon emission reduction projects. She works at Gold Standard, one of the leading carbon credit certifying organizations in Brazil. Maria's role involves evaluating and certifying carbon credit projects, ensuring their compliance with rigorous standards. She faces challenges related to verifying the accuracy and authenticity of project data, as well as ensuring transparency in the certification process. Maria is looking for innovative solutions that can enhance the efficiency and reliability of carbon credit certification, streamlining the verification process while maintaining the integrity of the certification standards.
-
-</div>
+-   Maria is an experienced professional in the environmental certification field, focusing on carbon emission reduction projects. She works at Gold Standard, one of the leading carbon credit certifying organizations in Brazil. Maria's role involves evaluating and certifying carbon credit projects, ensuring their compliance with rigorous standards. She faces challenges related to verifying the accuracy and authenticity of project data, as well as ensuring transparency in the certification process. Maria is looking for innovative solutions that can enhance the efficiency and reliability of carbon credit certification, streamlining the verification process while maintaining the integrity of the certification standards.
 </div>
 
 ---
 
 ## Architecture
 
-<center>
-  <img src='docs/images/architecture.jpeg' alt='Architecture' style='width: 80%;' />
-</center>
+<div style="display: flex; justify-content: center">
+  <img src='/docs/images/architecture.jpeg' alt='Architecture' style='width: 80%;' />
+</div>
 
 ### Architecture Overview
 
@@ -264,7 +251,7 @@ yarn install
 yarn dev
 ```
 
-### Cartesi
+### Cartesi (Host mode)
 
 1. Enter the `cartesi/bidsquad` folder:
 

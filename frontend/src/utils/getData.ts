@@ -96,20 +96,18 @@ export const getAuctions = async (): Promise<Auction[] | null> => {
 
     return auctions;
   } catch (err) {
-    console.log(err);
-    return null;
-    // setAuctions([
-    //   {
-    //     id: "1",
-    //     state: 1,
-    //     creator: "0x71ce1e91bD8c4673e09EAb1F7a4D79B646d66874",
-    //     carbonCredit: 100,
-    //     satteliteImageUrl: "https://imgur.com/CqoAKuh.png", //https://imgur.com/R1DlCa4.png
-    //     title: "Auction Teste",
-    //     description: "Auction Teste Description",
-    //     startDate: "12/04/2004",
-    //     endDate: "12/04/2004",
-    //   },
-    // ]);
+    return ([
+      {
+        id: "1",
+        state: 1,
+        creator: "0x71ce1e91bD8c4673e09EAb1F7a4D79B646d66874",
+        carbonCredit: 100,
+        satteliteImageUrl: "https://imgur.com/CqoAKuh.png", //https://imgur.com/R1DlCa4.png
+        title: "Auction Teste",
+        description: "Auction Teste Description",
+        start_date: "1699708800",
+        end_date: "1699574400",
+      },
+    ]);
   }
 };
