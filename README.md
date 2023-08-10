@@ -1,9 +1,9 @@
-
 <div style="display: flex; justify-content: center">
   <img src="/docs/images/banner.png" style="width: 100%;">
 </div>
 
 # BidSquad - Carbon Credit Auction Platform
+
 BidSquad is a groundbreaking carbon credit auction platform that leverages the power of blockchain technology and artificial intelligence to conduct reverse auctions for carbon credit certification. Through its innovative integration with Cartesi, BidSquad takes a significant step forward in revolutionizing environmental conservation. The platform is designed to connect individuals who own and preserve green areas within their land with certifiers specialized in carbon credit assessments. Utilizing a reverse auction mechanism, BidSquad empowers landowners to efficiently find certifiers offering competitive prices for certifying the carbon credit emissions of their preserved areas. By seamlessly incorporating Cartesi's advanced technology, BidSquad enhances the efficiency and transparency of the auction process, setting a remarkable example of how blockchain and AI can drive positive change in addressing environmental challenges.
 
 ## [Project Demo](https://drive.google.com/file/d/1wTX4MliYr8TXV_9Q9Ev424RxHoHH6Wy_/view?usp=sharing)
@@ -231,32 +231,31 @@ By integrating these innovative elements, **BidSquad** creates a comprehensive a
 
 ---
 
-## Env
+## Installation
 
 ### Frontend
+
+1. Env - Create a `.env.local` file in the `frontend` folder with the following variables:
+
 ```bash
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="API_KEY"
 NEXT_PUBLIC_PINATA_KEY=PINATA_KEY
 NEXT_PUBLIC_PINATA_SECRET=PINATA_SECRET
 ```
 
-## Installation
-
-### Frontend
-
-1. Enter the `frontend` folder:
+2. Enter the `frontend` folder:
 
 ```bash
 cd frontend
 ```
 
-2. Install the dependencies:
+3. Install the dependencies:
 
 ```bash
 yarn install
 ```
 
-3. Run the development server:
+4. Run the development server:
 
 ```bash
 yarn dev
