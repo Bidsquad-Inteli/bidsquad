@@ -269,26 +269,12 @@ yarn dev
 cd cartesi/bidsquad/
 ```
 
-2. Start the virtual environment and install the dependencies:
-
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-3. Start the Cartesi Machine:
+2. Start the Cartesi Machine:
 
 ```bash
 docker buildx bake --load
 
 docker compose -f ../docker-compose.yml -f docker-compose.override.yml up
-```
-
-4. Run the bidsquad dapp
-
-```bash
-ls *.py ./core/*.py | ROLLUP_HTTP_SERVER_URL="http://127.0.0.1:5004/" NETWORK='localhost' entr -r python3 bidsquad.py
 ```
 
 ## Our team
