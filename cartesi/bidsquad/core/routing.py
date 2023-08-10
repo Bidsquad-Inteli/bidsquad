@@ -18,11 +18,10 @@ import core.wallet as Wallet
 from core.auctioneer import Auctioneer
 from core.encoders import BalanceEncoder
 from core.log import logger
-from core.model import Item
 from core.outputs import Error, Log
 from core.util import hex_to_str
 from routes import Mapper
-from core.outputs import Error, Notice, Voucher
+from core.outputs import Error
 
 class DefaultRoute():
 
@@ -51,19 +50,9 @@ class WalletRoute(AdvanceRoute):
         self._wallet = wallet
 
 
-class DepositERC20Route(WalletRoute):
-
-    def execute(self, match_result, request=None):
-        return self._wallet.erc20_deposit_process(request)
-    
 class DepositEtherRoute(WalletRoute):
     def execute(self, match_result, request=None):
         return self._wallet.ether_deposit_process(request)
-
-class DepositERC721Route(WalletRoute):
-
-    def execute(self, match_result, request=None):
-        return self._wallet.erc721_deposit_process(request)
 
 
 class BalanceRoute(WalletRoute):
@@ -72,65 +61,6 @@ class BalanceRoute(WalletRoute):
         account = match_result["account"]
         balance = self._wallet.balance_get(account)
         return Log(json.dumps(balance, cls=BalanceEncoder))
-
-
-class WithdrawErc20Route(WalletRoute):
-
-    def execute(self, match_result, request=None):
-        super().execute(match_result, request)
-        return self._wallet.erc20_withdraw(self._msg_sender,
-                                           self._request_args.get(
-                                               "erc20").lower(),
-                                           self._request_args.get("amount"))
-
-
-class TransferErc20Route(WalletRoute):
-
-    def execute(self, match_result, request=None):
-        super().execute(match_result, request)
-        return self._wallet.erc20_transfer(self._msg_sender,
-                                           self._request_args.get(
-                                               "to").lower(),
-                                           self._request_args.get(
-                                               "erc20").lower(),
-                                           self._request_args.get("amount"))
-
-
-class WithdrawErc721Route(WalletRoute):
-
-    def __init__(self, wallet):
-        super().__init__(wallet)
-        self._rollup_address = None
-
-    @property
-    def rollup_address(self):
-        return self._rollup_address
-
-    @rollup_address.setter
-    def rollup_address(self,value):
-        self._rollup_address = value
-
-    def execute(self, match_result, request=None):
-        super().execute(match_result, request)
-        if self._rollup_address is None:
-            return Error ("DApp Address is needed to end an core. Check Dapp documentation on how to proper set the DApp Address")
-        return self._wallet.erc721_withdraw(self._rollup_address,
-                                            self._msg_sender,
-                                            self._request_args.get(
-                                                "erc721").lower(),
-                                            self._request_args.get("token_id"))
-
-
-class TransferErc721Route(WalletRoute):
-    def execute(self, match_result, request=None):
-        super().execute(match_result, request)
-        return self._wallet.erc721_transfer(self._msg_sender,
-                                            self._request_args.get(
-                                                "to").lower(),
-                                            self._request_args.get(
-                                                "erc721").lower(),
-                                            self._request_args.get("token_id"))
-    
 
 
 class AuctioneerRoute(AdvanceRoute):
@@ -242,14 +172,8 @@ class Router():
             "auction_end": EndAuctionRoute(auctioneer),
             "auction_query": QueryAuctionRoute(auctioneer),
             "auction_list": ListAuctionsRoute(auctioneer),
-            "erc20_deposit": DepositERC20Route(wallet),
-            "erc721_deposit": DepositERC721Route(wallet),
             "balance": BalanceRoute(wallet),
             "bid_list": ListBidsRoute(auctioneer),
-            "erc721_withdraw": WithdrawErc721Route(wallet),
-            "erc721_transfer": TransferErc721Route(wallet),
-            "erc20_withdraw": WithdrawErc20Route(wallet),
-            "erc20_transfer": TransferErc20Route(wallet),
             "ether_deposit": DepositEtherRoute(wallet),
         }
 
@@ -271,14 +195,6 @@ class Router():
                                 controller="auction_query",
                                 action="execute")
         self._route_map.connect(None,
-                                "erc20_deposit",
-                                controller="erc20_deposit",
-                                action="execute")
-        self._route_map.connect(None,
-                                "erc721_deposit",
-                                controller="erc721_deposit",
-                                action="execute")
-        self._route_map.connect(None,
                                 "balance/{account}",
                                 controller="balance",
                                 action="execute")
@@ -287,25 +203,9 @@ class Router():
                                 controller="bid_list",
                                 action="execute")
         self._route_map.connect(None,
-                                "erc721withdrawal",
-                                controller="erc721_withdraw",
-                                action="execute")
-        self._route_map.connect(None,
-                                "erc20withdrawal",
-                                controller="erc20_withdraw",
-                                action="execute")
-        self._route_map.connect(None,
                                 "end",
                                 controller="auction_end",
                                 action="execute")
-        self._route_map.connect(None,
-                                "erc721transfer",
-                                controller="erc721_transfer",
-                                action="execute")
-        self._route_map.connect(None,
-                                "erc20transfer",
-                                controller="erc20_transfer",
-                                action="execute"),
         self._route_map.connect(None,
                                 "ether_deposit",
                                 controller="ether_deposit",
@@ -313,7 +213,6 @@ class Router():
         
 
     def set_rollup_address(self,rollup_address):
-        self._controllers['erc721_withdraw'].rollup_address = rollup_address
         self._controllers['auction_end'].rollup_address = rollup_address
 
     def process(self, route, request=None):

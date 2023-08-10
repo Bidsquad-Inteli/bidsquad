@@ -17,48 +17,48 @@ from operator import attrgetter
 import core.wallet as Wallet
 from core.encoders import AuctionEncoder, BidEncoder
 from core.log import logger
-from core.model import Auction, Bid, Item
+from core.model import Auction, Bid
 from core.outputs import Error, Log, Notice, Output
 import numpy as np
 
 import base64
 
-from tflite_runtime.interpreter import Interpreter
+# from tflite_runtime.interpreter import Interpreter
 
-import sys
-sys.path.append('/usr/lib/python3/dist-packages')
-import cv2
+# import sys
+# sys.path.append('/usr/lib/python3/dist-packages')
+# import cv2
 
-def decode_image_from_base64(base64_string):
-    image_bytes = base64.b64decode(base64_string)
-    image_array = np.frombuffer(image_bytes, dtype=np.uint8)
-    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-    return image
+# def decode_image_from_base64(base64_string):
+#     image_bytes = base64.b64decode(base64_string)
+#     image_array = np.frombuffer(image_bytes, dtype=np.uint8)
+#     image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+#     return image
 
 
 def get_carbon_credits_for_sattelite_image(base64Image: str):
 
-    # Carregando o modelo TFLite
-    interpreter = Interpreter(model_path='./model/model.tflite')
-    interpreter.allocate_tensors()
+    # # Carregando o modelo TFLite
+    # interpreter = Interpreter(model_path='./model/model.tflite')
+    # interpreter.allocate_tensors()
 
-    # Decodificando e preprocessando a imagem
-    img = decode_image_from_base64(base64Image)
-    img = cv2.resize(img, (256, 256))
-    img = np.array(img, dtype=np.float32) / 255 
-    img = np.expand_dims(img, axis=0)
+    # # Decodificando e preprocessando a imagem
+    # img = decode_image_from_base64(base64Image)
+    # img = cv2.resize(img, (256, 256))
+    # img = np.array(img, dtype=np.float32) / 255 
+    # img = np.expand_dims(img, axis=0)
 
-    # Definindo o tensor de entrada
-    input_index = interpreter.get_input_details()[0]['index']
-    interpreter.set_tensor(input_index, img)
+    # # Definindo o tensor de entrada
+    # input_index = interpreter.get_input_details()[0]['index']
+    # interpreter.set_tensor(input_index, img)
 
-    # Invocando o interpretador
-    interpreter.invoke()
+    # # Invocando o interpretador
+    # interpreter.invoke()
 
-    # Obtendo a predição
-    output_index = interpreter.get_output_details()[0]['index']
-    results = round(float(interpreter.get_tensor(output_index)[0][0]), 1)
-
+    # # Obtendo a predição
+    # output_index = interpreter.get_output_details()[0]['index']
+    # results = round(float(interpreter.get_tensor(output_index)[0][0]), 1)
+    results = 2
     return results
 
 
@@ -80,10 +80,10 @@ class Auctioneer:
         maxTokenizationCost: int,
     ):
         try:
-            # if start_date < current_date:
-            #     raise ValueError(
-            #         f"Start date '{start_date.isoformat()}' " "must be in the future"
-            #     )
+            if start_date < current_date:
+                raise ValueError(
+                    f"Start date '{start_date.isoformat()}' " "must be in the future"
+                )
             logger.info(f"Model run for {satteliteImageUrl}")
             carbonCredits = get_carbon_credits_for_sattelite_image(base64Image)
             logger.info(f"Carbon Credits: {carbonCredits}")
@@ -140,9 +140,7 @@ class Auctioneer:
                     "Bid arrived after auction end date "
                     f"'{auction.end_date.isoformat()}'"
                 )
-            # if not self._has_enough_funds(auction.erc20, bidder, amount):
-            #     raise ValueError(f"Account {bidder} doesn't have enough funds")
-
+            
             new_bid = Bid(auction_id, bidder, amount, timestamp)
             auction.bid(new_bid)
             bid_json = json.dumps(new_bid, cls=BidEncoder)
@@ -254,25 +252,3 @@ class Auctioneer:
             error_msg = f"Failed to list auctions. {error}"
             logger.debug(error_msg, exc_info=True)
             return Error(error_msg)
-
-    def _seller_owns_item(self, seller, item):
-        try:
-            balance = self._wallet.balance_get(seller)
-            erc721_balance = balance.erc721_get(item.erc721)
-            if item.token_id in erc721_balance:
-                return True
-            return False
-        except Exception:
-            return False
-
-    def _is_item_auctionable(self, item):
-        for auction in self._auctions.values():
-            if auction.state != auction.FINISHED and auction.item == item:
-                return False
-        return True
-
-    def _has_enough_funds(self, erc20, bidder, amount):
-        balance = self._wallet.balance_get(bidder)
-        erc20_balance = balance.erc20_get(erc20)
-
-        return amount <= erc20_balance

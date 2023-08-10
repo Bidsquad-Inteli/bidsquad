@@ -18,7 +18,6 @@ export async function depositEther(maxTokenizationCost) {
     const bytes = ethers.utils.toUtf8Bytes("");
 
     const depositTx = await etherPortal.depositEther(DAPP_ADDRESS, bytes, { value: depositAmount });
-    await depositTx.wait();
 }
 
 export async function sendInput(payload) {

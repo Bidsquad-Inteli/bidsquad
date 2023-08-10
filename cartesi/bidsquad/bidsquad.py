@@ -30,19 +30,10 @@ logger.debug(f"Rollup server URL: {rollup_server}")
 logger.info(f"Network is {network}")
 
 # Setup contracts addresses
-erc20_portal_file = open(f'./deployments/{network}/ERC20Portal.json')
-erc20_portal = json.load(erc20_portal_file)
-
-input_box_file = open(f'./deployments/{network}/ERC20Portal.json')
-input_box_contract = json.load(input_box_file)
-
-erc721_portal_file = open(f'./deployments/{network}/ERC721Portal.json')
-erc721_portal = json.load(erc721_portal_file)
-
-ether_portal_file = open(f'./deployments/{network}/EtherPortal.json')
+ether_portal_file = open(f'../deployments/{network}/EtherPortal.json')
 ether_portal = json.load(ether_portal_file)
 
-dapp_address_relay_file = open(f'./deployments/{network}/DAppAddressRelay.json')
+dapp_address_relay_file = open(f'../deployments/{network}/DAppAddressRelay.json')
 dapp_address_relay = json.load(dapp_address_relay_file)
 
 router = None
@@ -79,22 +70,7 @@ def handle_advance(data):
             router.set_rollup_address(rollup_address)
             return Log(f"DApp address set up successfully to {rollup_address}.")
 
-        # It is an ERC20 deposit
-        if msg_sender.lower() == erc20_portal['address'].lower():
-            try:
-                return router.process("erc20_deposit", payload)
-            except Exception as error:
-                error_msg = f"Failed to process ERC20 deposit '{payload}'. {error}"
-                logger.debug(error_msg, exc_info=True)
-                return Error(error_msg)
-        elif msg_sender.lower() == erc721_portal['address'].lower():
-            try:
-                return router.process("erc721_deposit", payload)
-            except Exception as error:
-                error_msg = f"Failed to process ERC721 deposit '{payload}'. {error}"
-                logger.debug(error_msg, exc_info=True)
-                return Error(error_msg)
-        elif msg_sender.lower() == ether_portal['address'].lower():
+        if msg_sender.lower() == ether_portal['address'].lower():
             try:
                 return router.process("ether_deposit", payload)
             except Exception as error:
