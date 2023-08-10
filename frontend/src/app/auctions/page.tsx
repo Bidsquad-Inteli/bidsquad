@@ -21,8 +21,15 @@ const AuctionPage = () => {
 
   useEffect(() => {
     getAuctions().then((auctions) => {
-      if (auctions) setAuctions(auctions);
-    });
+      console.log("auctions", auctions);
+      if (auctions) {
+        auctions = auctions.filter(function(item) {
+          return item.state != 2; 
+        });
+
+        setAuctions(auctions);
+      } 
+    })
   }, []);
 
   function openModal(auction) {
