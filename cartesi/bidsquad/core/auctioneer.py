@@ -23,42 +23,41 @@ import numpy as np
 
 import base64
 
-# from tflite_runtime.interpreter import Interpreter
+from tflite_runtime.interpreter import Interpreter
 
-# import sys
-# sys.path.append('/usr/lib/python3/dist-packages')
-# import cv2
+import sys
+sys.path.append('/usr/lib/python3/dist-packages')
+import cv2
 
-# def decode_image_from_base64(base64_string):
-#     image_bytes = base64.b64decode(base64_string)
-#     image_array = np.frombuffer(image_bytes, dtype=np.uint8)
-#     image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-#     return image
+def decode_image_from_base64(base64_string):
+    image_bytes = base64.b64decode(base64_string)
+    image_array = np.frombuffer(image_bytes, dtype=np.uint8)
+    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+    return image
 
 
 def get_carbon_credits_for_sattelite_image(base64Image: str):
 
-    # # Carregando o modelo TFLite
-    # interpreter = Interpreter(model_path='./model/model.tflite')
-    # interpreter.allocate_tensors()
+    # Carregando o modelo TFLite
+    interpreter = Interpreter(model_path='./model/model.tflite')
+    interpreter.allocate_tensors()
 
-    # # Decodificando e preprocessando a imagem
-    # img = decode_image_from_base64(base64Image)
-    # img = cv2.resize(img, (256, 256))
-    # img = np.array(img, dtype=np.float32) / 255 
-    # img = np.expand_dims(img, axis=0)
+    # Decodificando e preprocessando a imagem
+    img = decode_image_from_base64(base64Image)
+    img = cv2.resize(img, (256, 256))
+    img = np.array(img, dtype=np.float32) / 255 
+    img = np.expand_dims(img, axis=0)
 
-    # # Definindo o tensor de entrada
-    # input_index = interpreter.get_input_details()[0]['index']
-    # interpreter.set_tensor(input_index, img)
+    # Definindo o tensor de entrada
+    input_index = interpreter.get_input_details()[0]['index']
+    interpreter.set_tensor(input_index, img)
 
-    # # Invocando o interpretador
-    # interpreter.invoke()
+    # Invocando o interpretador
+    interpreter.invoke()
 
-    # # Obtendo a predição
-    # output_index = interpreter.get_output_details()[0]['index']
-    # results = round(float(interpreter.get_tensor(output_index)[0][0]), 1)
-    results = 2
+    # Obtendo a predição
+    output_index = interpreter.get_output_details()[0]['index']
+    results = round(float(interpreter.get_tensor(output_index)[0][0]), 1)
     return results
 
 
