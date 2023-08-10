@@ -21,7 +21,7 @@ interface Bids {
 interface AuctionModalProps {
   auction: {
     id: string;
-    state: number;
+    state: number | string;
     creator: string;
     carbonCredit: number;
     satteliteImageUrl: string;
@@ -47,18 +47,6 @@ export const AuctionModal = ({
   const { account } = useMetamask();
 
   const metaMask = useMetamask();
-
-  switch (auction.state) {
-    case 0:
-      auction.state = "Created";
-      break;
-    case 1:
-      auction.state = "Open";
-      break;
-    case 2:
-      auction.state = "Closed";
-      break;
-  }
 
   // Função para realizar uma oferta no leilão
   const sendBid = async (id, amount) => {
@@ -108,14 +96,6 @@ export const AuctionModal = ({
 
     getBidsData(auction.id).then((data) => {
       if (data) {
-        for (let bid of data) {
-          if (typeof bid.amount == "number") {
-            bid.amount = bid.amount / 10 ** 18;
-          } else {
-            bid.amount = Number(ethers.utils.formatEther(bid.amount));
-          }
-        }
-        data.sort((a, b) => a.amount - b.amount);
         setBids(data);
       }
     });
@@ -234,10 +214,12 @@ export const AuctionModal = ({
 
           <div className="h-[2px] my-8 rounded bg-gray-500 md:mx-12"></div>
 
-          {(owner || auctionFinished) ? (
+          {owner || auctionFinished ? (
             <div className="w-full flex items-center justify-center">
               <span className="self-start font-medium">
-                {owner ? "- You are the owner of this -": "- Time is over to make a bid -"}
+                {owner
+                  ? "- You are the owner of this -"
+                  : "- Time is over to make a bid -"}
               </span>
             </div>
           ) : (
