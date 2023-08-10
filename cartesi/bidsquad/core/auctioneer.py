@@ -80,10 +80,10 @@ class Auctioneer:
         maxTokenizationCost: int,
     ):
         try:
-            if start_date < current_date:
-                raise ValueError(
-                    f"Start date '{start_date.isoformat()}' " "must be in the future"
-                )
+            # if start_date < current_date:
+            #     raise ValueError(
+            #         f"Start date '{start_date.isoformat()}' " "must be in the future"
+            #     )
             logger.info(f"Model run for {satteliteImageUrl}")
             carbonCredits = get_carbon_credits_for_sattelite_image(base64Image)
             logger.info(f"Carbon Credits: {carbonCredits}")

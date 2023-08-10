@@ -30,10 +30,10 @@ logger.debug(f"Rollup server URL: {rollup_server}")
 logger.info(f"Network is {network}")
 
 # Setup contracts addresses
-ether_portal_file = open(f'../deployments/{network}/EtherPortal.json')
+ether_portal_file = open(f'./deployments/{network}/EtherPortal.json')
 ether_portal = json.load(ether_portal_file)
 
-dapp_address_relay_file = open(f'../deployments/{network}/DAppAddressRelay.json')
+dapp_address_relay_file = open(f'./deployments/{network}/DAppAddressRelay.json')
 dapp_address_relay = json.load(dapp_address_relay_file)
 
 router = None
