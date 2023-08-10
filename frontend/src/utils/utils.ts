@@ -51,9 +51,9 @@ export async function sendToIPFS(file) {
     url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
     data: formData,
     headers: {
-      pinata_api_key: "bf67cf4376213d9d9cb0", // `${process.env.REACT_APP_PINATA_API_KEY}`,
+      pinata_api_key: process.env.NEXT_PUBLIC_PINATA_KEY, // `${process.env.REACT_APP_PINATA_API_KEY}`,
       pinata_secret_api_key:
-        "5250eddb652c2e750bdf57d8ed79ee762564fed74c4ebfd78bb35dd4dbbe5a17", // `${process.env.REACT_APP_PINATA_API_SECRET}`,
+        process.env.NEXT_PUBLIC_PINATA_SECRET, // `${process.env.REACT_APP_PINATA_API_SECRET}`,
       "Content-Type": "multipart/form-data",
     },
   });
