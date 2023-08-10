@@ -17,7 +17,7 @@ export const CoordinateFormControls: React.FC<CoordinateFormControlsProps> = ({d
             >
                 <AiOutlinePlus color="white" />
             </button>
-            <label>ou</label>
+            <label>or</label>
             <button
                 type="button"
                 onClick={decreaseInput}
